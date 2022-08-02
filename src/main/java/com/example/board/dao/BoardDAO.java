@@ -10,7 +10,7 @@ public interface BoardDAO {
 	public void create(BoardDTO boardDTO) throws Exception;
 
 	// 게시글 상세보기
-	public void read(int boardNum) throws Exception;
+	public BoardDTO read(int boardNum) throws Exception;
 	
 	// 게시글 수정
 	public void update(BoardDTO boardDTO) throws Exception;

@@ -33,9 +33,8 @@ public class BoardDAOImpl implements BoardDAO{
 
 	// 게시글 상세보기
 	@Override
-	public void read(int boardNum) throws Exception {
-		// TODO Auto-generated method stub
-		
+	public BoardDTO read(int boardNum) throws Exception {
+		return sqlsession.selectOne("BoardMapper.read", boardNum);
 	}
 
 	// 게시글 수정

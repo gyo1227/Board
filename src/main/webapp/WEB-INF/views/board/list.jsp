@@ -5,8 +5,11 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>게시글 리스트</title>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css"></script>
+<script src="	https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 <body>
 
@@ -27,7 +30,7 @@
 						<c:out value="${list.boardNum}"/>
 					</td>			
 					<td>
-						<a href='${pageContext.request.contextPath}/board/view/<c:out value="${list.boardNum }"/>'><c:out value="${list.title}"/><b>[ <c:out value="${list.replyCnt}" /> ]</b></a>
+						<a href='${pageContext.request.contextPath}/board/view/<c:out value="${list.boardNum }"/>'><c:out value="${list.title}"/><b>[<c:out value="${list.replyCnt}" />]</b></a>
 					</td>			
 					<td><c:out value="${list.nickName}"/></td>	
  					<td><c:out value="${list.regDate}"/></td>		
@@ -39,6 +42,6 @@
 
 
 
-	<a href="${pageContext.request.contextPath}/board/write">글쓰기</a>
+	<a href="${pageContext.request.contextPath}/board/write" class="btn btn-primary">글쓰기</a>
 </body>
 </html>

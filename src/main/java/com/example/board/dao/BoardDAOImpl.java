@@ -27,7 +27,7 @@ public class BoardDAOImpl implements BoardDAO{
 	// 게시글 작성
 	@Override
 	public void create(BoardDTO boardDTO) throws Exception {
-		log.info("{}",boardDTO);
+		log.info("게시글 작성 - {}",boardDTO);
 		sqlsession.insert("BoardMapper.create", boardDTO);
 	}
 

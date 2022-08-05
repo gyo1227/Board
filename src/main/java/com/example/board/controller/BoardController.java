@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.example.board.dto.BoardDTO;
@@ -37,6 +36,8 @@ public class BoardController {
 		ModelAndView mv = new ModelAndView();
 		log.info("게시판 리스트 페이지");
 		log.info("{}", list);
+//		log.info("{}", list.get(0).getRegDate());
+//		log.info("{}", list.get(0).getRegDate().getClass().getName());
 		
 		mv.setViewName("board/list");
 		mv.addObject("list", list);

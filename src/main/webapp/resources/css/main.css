@@ -1,0 +1,48 @@
+@charset "UTF-8";
+html, body {
+	height: 100%;
+}
+
+#body {
+	display: flex;
+	flex-direction: column;
+	height: 100%;
+}
+
+a {
+	text-decoration:none;
+	color: #212529;
+}
+
+a:hover {
+	color: #212529;
+}
+
+
+/* header */
+.header {
+	display: flex;
+	justify-content: space-between;
+}
+
+.left {
+	display: flex;
+	justify-content: flex-end;
+}
+
+.bi-person-circle {
+	font-size: 32px;
+	line-height: 32px;
+}
+
+/* container */
+.form {
+	display: flex;
+	flex: auto;
+	justify-content: center;
+	align-items: center;
+}
+
+.footer {
+	height: 40px;
+}

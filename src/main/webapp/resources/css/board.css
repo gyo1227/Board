@@ -1,0 +1,32 @@
+@charset "UTF-8";
+
+#content {
+	width: 100%;
+	height: 500px;
+	resize: none;
+}
+
+.reply {
+	color: #f94b4b;
+	font-weight: bold;
+}
+
+.text-center {
+	text-align: center;
+}
+
+.board-list>table tr:hover {
+	background-color: #f6f5f5;
+}
+
+.board-bottom .search {
+	text-align: center;
+}
+
+.search-btn, .search-btn:hover {
+	border: 1px solid #ccc;
+}
+
+.write-form {
+	width: 900px;
+}

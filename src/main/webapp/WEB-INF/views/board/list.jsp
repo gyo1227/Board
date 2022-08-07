@@ -16,28 +16,17 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.1/font/bootstrap-icons.css">
 
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/main.css" type="text/css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/board.css" type="text/css">
 </head>
 <body>
-	<header class="p-3 mb-3 border-bottom">
-		<div class="container left">
-			<div class="dropdown text-end">
-				<a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-					<i class="bi bi-person-circle"></i>
-				</a>
-				<ul class="dropdown-menu text-small">
-					<li><a class="dropdown-item" href="${pageContext.request.contextPath}/user/login">로그인</a></li>
-					<li><a class="dropdown-item" href="${pageContext.request.contextPath}/user/join">회원가입</a></li>
-				</ul>
-			</div>
-		</div>
-	</header>
+<%@include file="../includes/header.jsp"%>
 	<div class="container">
 	
 		<div class="board-list">
 			<table class="table">
 				<colgroup>
 					<col class="col-1">
-					<col class="col-8">
+					<col class="col-6">
 					<col class="col-1">
 					<col class="col-1">
 					<col class="col-1">
@@ -62,9 +51,8 @@
 							</td>			
 							<td class="text-center"><c:out value="${list.nickName}"/></td>	
 		 					<td class="text-center">
-		 					<fmt:parseDate value="${list.regDate }" pattern="yyyy-MM-dd'T'HH:mm" var="parsedDateTime" type="both"/>
-		 					<fmt:formatDate pattern="HH:mm" value="${parsedDateTime }"/>
-		 						<%-- <fmt:formatDate value="${list.regDate }"/> --%>
+								<fmt:parseDate value="${list.regDate }" pattern="yyyy-MM-dd'T'HH:mm" var="parsedDateTime" type="both"/>
+		 						<fmt:formatDate value="${parsedDateTime }" pattern="MM-dd" />
 	 						</td>		
 							<td class="text-center"><c:out value="${list.viewCnt}"/></td>		
 						</tr>
@@ -90,5 +78,6 @@
 			
 		</form>
 	</div>
+<%@include file="../includes/footer.jsp"%>
 </body>
 </html>

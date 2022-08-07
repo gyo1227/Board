@@ -38,7 +38,6 @@ public class BoardController {
 		log.info("{}", list);
 //		log.info("{}", list.get(0).getRegDate());
 //		log.info("{}", list.get(0).getRegDate().getClass().getName());
-		
 		mv.setViewName("board/list");
 		mv.addObject("list", list);
 		

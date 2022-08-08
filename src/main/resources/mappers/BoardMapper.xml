@@ -4,7 +4,7 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
     
 
-<mapper namespace="BoardMapper">
+<mapper namespace="com.example.board.mappers.BoardMapper">
 	
 	<!-- 게시글 전체 조회 -->
 	<select id="listAll" resultType="com.example.board.dto.BoardDTO">

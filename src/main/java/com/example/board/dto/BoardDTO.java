@@ -23,6 +23,22 @@ public class BoardDTO {
 	private int viewCnt;				// 게시글 조회수
 	private int replyCnt;				// 게시글 댓글수
 	
+	public BoardDTO() {
+		super();
+	}
+	
+	public BoardDTO(int boardNum, String title, String content, String nickName, LocalDateTime regDate, int viewCnt,
+			int replyCnt) {
+		super();
+		this.boardNum = boardNum;
+		this.title = title;
+		this.content = content;
+		this.nickName = nickName;
+		this.regDate = regDate;
+		this.viewCnt = viewCnt;
+		this.replyCnt = replyCnt;
+	}
+
 	public int getBoardNum() {
 		return boardNum;
 	}

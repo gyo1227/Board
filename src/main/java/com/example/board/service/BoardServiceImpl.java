@@ -14,7 +14,7 @@ import com.example.board.dto.BoardDTO;
 @Service
 public class BoardServiceImpl implements BoardService {
 
-	private static final Logger log = LoggerFactory.getLogger(BoardController.class);
+	private static final Logger log = LoggerFactory.getLogger(BoardServiceImpl.class);
 	
 	@Autowired
 	private BoardDAO boardDAO;

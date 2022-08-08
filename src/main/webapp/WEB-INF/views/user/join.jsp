@@ -15,21 +15,51 @@
 <!-- CSS -->
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/main.css" type="text/css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/user.css" type="text/css">
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 </head>
+<script type="text/javascript">
+function checkId() {
+	var userId = $('#userId').val();
+	$.ajax({
+		url:'/user/idCheck', //Controller에서 인식할 주소
+		type:'post', //POST 방식으로 전달
+		data:{userId:userId},
+		success:function(result){
+			if(cnt != 1) {
+				$('.id_ok').css("display","inline-block"); 
+				$('.id_already').css("display", "none");
+			} else {
+				$('.id_already').css("display","inline-block");
+				$('.id_ok').css("display", "none");
+			}
+		},
+		error:function(request,status,error){
+			alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+			alert("에러입니다");
+		}
+	});
+};
+</script>
 <body>
 <div id="body">
 <%@include file="../includes/header.jsp"%>
 	<div class="form">
-		<form class="user-form" name="form" method="post" action="${pageContext.request.contextPath}/board/write">
+		<form class="user-form" name="form" method="post" action="${pageContext.request.contextPath}/user/join">
 			<div class="form-floating mb-3">
-				<input type="text" class="form-control" id="userId" name="userId" placeholder="아이디를 입력하세요"/>
+				<input type="text" class="form-control" id="userId" name="userId" placeholder="아이디를 입력하세요." oninput="checkId()"/>
 				<label for="userId">아이디</label>
+				<span class="id_ok">사용 가능한 아이디입니다.</span>
+				<span class="id_already">이미 사용중인 아이디입니다.</span>
 			</div>
 			<div class="form-floating mb-3">
-				<input type="password" class="form-control" id="userPw" name="userPw" placeholder="아이디를 입력하세요"/>
+				<input type="password" class="form-control" id="userPw" name="userPw" placeholder="아이디를 입력하세요."/>
 				<label for="userPw">비밀번호</label>
 			</div>		
-			<button type="button" class="w-100 btn btn-lg btn-primary form-floating mb-2">회원가입</button>
+			<div class="form-floating mb-3">
+				<input type="text" class="form-control" id="nickName" name="nickName" placeholder="닉네임을 입력하세요."/>
+				<label for="nickName">닉네임</label>
+			</div>
+			<button type="submit" class="w-100 btn btn-lg btn-primary form-floating mb-2">회원가입</button>
 		</form>
 	</div>
 <%@include file="../includes/footer.jsp"%>

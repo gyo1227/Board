@@ -15,7 +15,7 @@ import com.example.board.dto.BoardDTO;
 @Repository
 public class BoardDAOImpl implements BoardDAO{
 
-	private static final Logger log = LoggerFactory.getLogger(BoardController.class);
+	private static final Logger log = LoggerFactory.getLogger(BoardDAOImpl.class);
 	
 	@Inject
 	private SqlSession sqlsession;
@@ -23,18 +23,20 @@ public class BoardDAOImpl implements BoardDAO{
 	public void setSqlsession(SqlSession sqlsession) {
 		this.sqlsession = sqlsession;
 	}
+	
+	private final String NAMESPACE = "com.example.board.mappers.BoardMapper";
 
 	// 게시글 작성
 	@Override
 	public void create(BoardDTO boardDTO) throws Exception {
 		log.info("게시글 작성 - {}",boardDTO);
-		sqlsession.insert("BoardMapper.create", boardDTO);
+		sqlsession.insert(NAMESPACE + ".create", boardDTO);
 	}
 
 	// 게시글 상세보기
 	@Override
 	public BoardDTO read(int boardNum) throws Exception {
-		return sqlsession.selectOne("BoardMapper.read", boardNum);
+		return sqlsession.selectOne(NAMESPACE + ".read", boardNum);
 	}
 
 	// 게시글 수정
@@ -54,7 +56,7 @@ public class BoardDAOImpl implements BoardDAO{
 	// 게시글 전체 조회
 	@Override
 	public List<BoardDTO> listAll() throws Exception {
-		return sqlsession.selectList("BoardMapper.listAll");
+		return sqlsession.selectList(NAMESPACE + ".listAll");
 	}
 	
 	// 게시글 조회수 증가

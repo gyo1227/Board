@@ -63,12 +63,14 @@ public class UserController {
 	
 	@PostMapping("/idCheck")
 	@ResponseBody
-	public int idCheck(@RequestParam("userId") String userId) throws Exception {
+	public String idCheck(@RequestParam("userId") String userId) throws Exception {
 		log.info("userId : {}" , userId);
 		int cnt = userService.idCheck(userId);
 		
+		String result = Integer.toString(cnt);
+		
 		log.info("cnt : {}" , cnt);
 		
-		return cnt;
+		return result;
 	}
 }

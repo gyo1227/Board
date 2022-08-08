@@ -4,5 +4,14 @@
 	width: 300px;
 }
 
-.id_ok{color:#fff; display: none;}
-.id_already{color:#6A82FB; display: none;}
+.idCheck {
+	display: none;
+}
+
+.ok {
+	color: #6A82FB;
+}
+
+.no {
+	color: red;
+}

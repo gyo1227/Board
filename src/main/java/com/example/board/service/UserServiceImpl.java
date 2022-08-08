@@ -28,7 +28,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public int idCheck(String userId) throws Exception {
-		log.info("idCheck(String userId)");
+		log.info("idCheck(String userId) - {}", userId);
 		return userDAO.idCheck(userId);
 	}
 

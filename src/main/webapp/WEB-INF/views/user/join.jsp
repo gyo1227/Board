@@ -20,24 +20,39 @@
 <script type="text/javascript">
 function checkId() {
 	var userId = $('#userId').val();
-	$.ajax({
-		url:'/user/idCheck', //Controller에서 인식할 주소
-		type:'post', //POST 방식으로 전달
-		data:{userId:userId},
-		success:function(result){
-			if(cnt != 1) {
-				$('.id_ok').css("display","inline-block"); 
-				$('.id_already').css("display", "none");
-			} else {
-				$('.id_already').css("display","inline-block");
-				$('.id_ok').css("display", "none");
+	if(userId == '') {
+		$('.idCheck').css("display", "none");
+		$('.idCheck').text('')
+		$('.idCheck').removeClass('ok');
+		$('.idCheck').removeClass('no');
+	} else if(userId.replace(/\s/g,'').length == 0) {
+		$('.idCheck').css("display", "inline-block");
+		$('.idCheck').text('공백은 입력할 수 없습니다.')
+		$('.idCheck').removeClass('ok');
+		$('.idCheck').addClass('no')
+	} else {
+		$.ajax({
+			url:'/user/idCheck',
+			type:'post',
+			data:{userId:userId},
+			success:function(cnt){
+				if(cnt != 1) {
+					$('.idCheck').css("display", "inline-block");
+					$('.idCheck').text('사용 가능한 아이디입니다.')
+					$('.idCheck').removeClass('no');
+					$('.idCheck').addClass('ok')
+				} else {
+					$('.idCheck').css("display", "inline-block");
+					$('.idCheck').text('이미 사용중인 아이디입니다.')
+					$('.idCheck').removeClass('ok');
+					$('.idCheck').addClass('no')
+				}
+			},
+			error:function(){
+				console.log("에러입니다");
 			}
-		},
-		error:function(request,status,error){
-			alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
-			alert("에러입니다");
-		}
-	});
+		});
+	}
 };
 </script>
 <body>
@@ -48,8 +63,7 @@ function checkId() {
 			<div class="form-floating mb-3">
 				<input type="text" class="form-control" id="userId" name="userId" placeholder="아이디를 입력하세요." oninput="checkId()"/>
 				<label for="userId">아이디</label>
-				<span class="id_ok">사용 가능한 아이디입니다.</span>
-				<span class="id_already">이미 사용중인 아이디입니다.</span>
+				<span class="idCheck">이미 사용중인 아이디입니다.</span>
 			</div>
 			<div class="form-floating mb-3">
 				<input type="password" class="form-control" id="userPw" name="userPw" placeholder="아이디를 입력하세요."/>

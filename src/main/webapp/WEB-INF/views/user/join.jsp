@@ -15,6 +15,7 @@
 <!-- CSS -->
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/main.css" type="text/css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/user.css" type="text/css">
+<!-- jQuery -->
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 </head>
 <script type="text/javascript">
@@ -58,24 +59,33 @@ function checkId() {
 <body>
 <div id="body">
 <%@include file="../includes/header.jsp"%>
-	<div class="form">
-		<form class="user-form" name="form" method="post" action="${pageContext.request.contextPath}/user/join">
-			<div class="form-floating mb-3">
-				<input type="text" class="form-control" id="userId" name="userId" placeholder="아이디를 입력하세요." oninput="checkId()"/>
-				<label for="userId">아이디</label>
-				<span class="idCheck">이미 사용중인 아이디입니다.</span>
+<c:choose>
+		<c:when test="${sessionScope.userId == null }">
+			<div class="form">
+				<form class="user-form" name="form" method="post" action="${pageContext.request.contextPath}/user/join">
+					<div class="form-floating mb-3">
+						<input type="text" class="form-control" id="userId" name="userId" placeholder="아이디를 입력하세요." oninput="checkId()"/>
+						<label for="userId">아이디</label>
+						<span class="idCheck">이미 사용중인 아이디입니다.</span>
+					</div>
+					<div class="form-floating mb-3">
+						<input type="password" class="form-control" id="userPw" name="userPw" placeholder="아이디를 입력하세요."/>
+						<label for="userPw">비밀번호</label>
+					</div>		
+					<div class="form-floating mb-3">
+						<input type="text" class="form-control" id="nickName" name="nickName" placeholder="닉네임을 입력하세요."/>
+						<label for="nickName">닉네임</label>
+					</div>
+					<button type="submit" class="w-100 btn btn-lg btn-primary form-floating mb-2">회원가입</button>
+				</form>
 			</div>
-			<div class="form-floating mb-3">
-				<input type="password" class="form-control" id="userPw" name="userPw" placeholder="아이디를 입력하세요."/>
-				<label for="userPw">비밀번호</label>
-			</div>		
-			<div class="form-floating mb-3">
-				<input type="text" class="form-control" id="nickName" name="nickName" placeholder="닉네임을 입력하세요."/>
-				<label for="nickName">닉네임</label>
-			</div>
-			<button type="submit" class="w-100 btn btn-lg btn-primary form-floating mb-2">회원가입</button>
-		</form>
-	</div>
+		</c:when>
+		<c:otherwise>
+			<script>
+				location.href="${pageContext.request.contextPath}/board/list";
+			</script>
+		</c:otherwise>
+	</c:choose>
 <%@include file="../includes/footer.jsp"%>
 </div>
 </body>

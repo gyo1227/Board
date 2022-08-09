@@ -2,6 +2,8 @@ package com.example.board.service;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +26,9 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
-	public void create(BoardDTO boardDTO) throws Exception {
+	public void create(HttpSession session, BoardDTO boardDTO) throws Exception {
+		boardDTO.setUserId(session.getAttribute("userId").toString());
+		boardDTO.setNickName(session.getAttribute("nickName").toString());
 		boardDAO.create(boardDTO);
 	}
 

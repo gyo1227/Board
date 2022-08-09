@@ -9,5 +9,11 @@ public interface UserDAO {
 
 	// 아이디 중복 체크
 	public int idCheck(String userId) throws Exception;
+
+	// 로그인
+	public boolean login(UserDTO userDTO) throws Exception;
+	
+	// 로그인한 회원 정보
+	public UserDTO loginUserInfo(UserDTO userDTO) throws Exception;
 	
 }

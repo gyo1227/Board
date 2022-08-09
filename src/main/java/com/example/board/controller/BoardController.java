@@ -2,6 +2,8 @@ package com.example.board.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,8 +38,6 @@ public class BoardController {
 		ModelAndView mv = new ModelAndView();
 		log.info("게시판 리스트 페이지");
 		log.info("{}", list);
-//		log.info("{}", list.get(0).getRegDate());
-//		log.info("{}", list.get(0).getRegDate().getClass().getName());
 		mv.setViewName("board/list");
 		mv.addObject("list", list);
 		
@@ -55,9 +55,9 @@ public class BoardController {
 	}
 	
 	@PostMapping("/write")
-	public String write(BoardDTO boardDTO) throws Exception {
-		
-		boardService.create(boardDTO);
+	public String write(HttpSession session, BoardDTO boardDTO) throws Exception {
+
+		boardService.create(session, boardDTO);
 		
 		log.info("게시판 작성 처리 - {}", boardDTO.toString());
 		

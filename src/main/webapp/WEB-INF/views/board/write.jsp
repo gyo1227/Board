@@ -19,21 +19,32 @@
 <body>
 <div id="body">
 <%@include file="../includes/header.jsp"%>
-	<div class="form">
-		<form class="write-form" name="write-form" method="post" action="${pageContext.request.contextPath}/board/write">
-			<div class="form-floating mb-3">
-				<input type="text" class="form-control" id="title" name="title" placeholder="게시글 제목"/>
-				<label for="title">게시글 제목</label>
+	<c:choose>
+		<c:when test="${sessionScope.userId != null }">
+			<div class="form">
+				<form class="write-form" name="write-form" method="post" action="${pageContext.request.contextPath}/board/write">
+					<div class="form-floating mb-3">
+						<input type="text" class="form-control" id="title" name="title" placeholder="게시글 제목"/>
+						<label for="title">게시글 제목</label>
+					</div>
+					<div class="form-floating mb-3">
+						<textarea class="form-control" id="content" name="content" placeholder="내용을 입력해 주세요."></textarea>
+						<label for="content">게시글 작성</label>
+					</div>
+					<div class="left">
+						<button type="submit" class="btn btn-lg btn-primary form-floating mb-2">글 작성</button>
+					</div>	
+				</form>
 			</div>
-			<div class="form-floating mb-3">
-				<textarea class="form-control" id="content" name="content" placeholder="내용을 입력해 주세요."></textarea>
-				<label for="content">게시글 작성</label>
-			</div>
-			<div class="left">
-				<button type="button" class="btn btn-lg btn-primary form-floating mb-2">글 작성</button>
-			</div>	
-		</form>
-	</div>
+		</c:when>
+		<c:otherwise>
+			<script>
+				alert('로그인이 필요합니다.');
+				location.href="${pageContext.request.contextPath}/user/login";
+			</script>
+		</c:otherwise>
+	</c:choose>
+	
 <%@include file="../includes/footer.jsp"%>
 </div>
 </body>

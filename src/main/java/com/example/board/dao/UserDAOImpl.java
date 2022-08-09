@@ -30,10 +30,25 @@ public class UserDAOImpl implements UserDAO {
 		sqlsession.insert(NAMESPACE + ".join", userDTO);
 	}
 
+	// 아이디 중복 체크
 	@Override
 	public int idCheck(String userId) throws Exception {
 		log.info("아이디 중복 체크 - {}", userId);
 		return sqlsession.selectOne(NAMESPACE + ".idCheck", userId);
+	}
+
+	// 로그인
+	@Override
+	public boolean login(UserDTO userDTO) throws Exception {
+		log.info("로그인 - {}", userDTO);
+		String userId = sqlsession.selectOne(NAMESPACE + ".login", userDTO);
+		return (userId != null) ? true : false;
+	}
+
+	@Override
+	public UserDTO loginUserInfo(UserDTO userDTO) throws Exception {
+		log.info("로그인한 회원 정보 - {}", userDTO);
+		return sqlsession.selectOne(NAMESPACE + ".loginUserInfo", userDTO);
 	}
 
 }

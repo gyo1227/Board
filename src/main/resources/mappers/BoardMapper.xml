@@ -12,6 +12,7 @@
 			boardNum,
 			title,
 			content,
+			nickName,
 			regDate,
 			viewCnt,
 			replyCnt
@@ -25,10 +26,12 @@
 	<!-- 게시글 작성 -->
 	<insert id="create">
 		INSERT INTO board (
-			title, content
+			title, content, nickName, userId
 		) values (
 			#{title},
-			#{content}
+			#{content},
+			#{nickName},
+			#{userId}
 		)
 	</insert>
 	

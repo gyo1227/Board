@@ -2,12 +2,14 @@ package com.example.board.service;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import com.example.board.dto.BoardDTO;
 
 public interface BoardService {
 
 	// 게시글 작성
-	public void create(BoardDTO boardDTO) throws Exception;
+	public void create(HttpSession session, BoardDTO boardDTO) throws Exception;
 
 	// 게시글 상세보기
 	public BoardDTO read(int boardNum) throws Exception;

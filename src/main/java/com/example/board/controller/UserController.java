@@ -1,5 +1,7 @@
 package com.example.board.controller;
 
+import javax.servlet.http.HttpSession;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,18 +29,6 @@ public class UserController {
 		this.userService = userService;
 	}
 
-	@GetMapping("/login")
-	public ModelAndView login() {
-		
-		ModelAndView mv = new ModelAndView();
-		log.info("유저 로그인 페이지");
-		
-		mv.setViewName("user/login");
-		mv.addObject("", "");
-		
-		return mv;
-	}
-	
 	@GetMapping("/join")
 	public ModelAndView join() {
 		
@@ -72,5 +62,40 @@ public class UserController {
 		log.info("cnt : {}" , cnt);
 		
 		return result;
+	}
+	
+	@GetMapping("/login")
+	public ModelAndView login() {
+		
+		ModelAndView mv = new ModelAndView();
+		log.info("유저 로그인 페이지");
+		
+		mv.setViewName("user/login");
+		
+		return mv;
+	}
+	
+	@PostMapping("/login")
+	public String login(UserDTO userDTO, HttpSession session) throws Exception {
+		boolean result = userService.login(userDTO, session);
+		
+		log.info("유저 로그인 처리");
+		if(result == true) {
+			log.info("로그인 성공");
+			return "redirect:/board/list";
+		} else {
+			log.info("로그인 실패");
+			return "redirect:/user/login";
+		}
+		
+		
+	}
+	
+	@GetMapping("logout")
+	public String logout(HttpSession session, String userId) throws Exception {
+		log.info(session.getId());
+		userService.logout(session);
+		
+		return "redirect:/board/list";
 	}
 }

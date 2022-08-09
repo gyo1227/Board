@@ -20,20 +20,30 @@
 <body>
 <div id="body">
 <%@include file="../includes/header.jsp"%>
-	<div class="form">
-		<form class="user-form" name="login-form" method="post" action="${pageContext.request.contextPath}/board/write">
-			<div class="form-floating mb-3">
-				<input type="text" class="form-control" id="userId" name="userId" placeholder="아이디를 입력하세요"/>
-				<label for="userId">아이디</label>
+	<c:choose>
+		<c:when test="${sessionScope.userId == null }">
+			<div class="form">
+				<form class="user-form" name="login-form" method="post" action="${pageContext.request.contextPath}/user/login">
+					<div class="form-floating mb-3">
+						<input type="text" class="form-control" id="userId" name="userId" placeholder="아이디를 입력하세요"/>
+						<label for="userId">아이디</label>
+					</div>
+					<div class="form-floating mb-3">
+						<input type="password" class="form-control" id="userPw" name="userPw" placeholder="아이디를 입력하세요"/>
+						<label for="userPw">비밀번호</label>
+					</div>		
+					<button type="submit" class="w-100 btn btn-lg btn-primary form-floating mb-2">로그인</button>
+					<button type="button" class="w-100 btn btn-lg btn-primary form-floating mb-2" onclick="location.href='${pageContext.request.contextPath}/user/join'">회원가입</button>
+				</form>
 			</div>
-			<div class="form-floating mb-3">
-				<input type="password" class="form-control" id="userPw" name="userPw" placeholder="아이디를 입력하세요"/>
-				<label for="userPw">비밀번호</label>
-			</div>		
-			<button type="button" class="w-100 btn btn-lg btn-primary form-floating mb-2">로그인</button>
-			<button type="button" class="w-100 btn btn-lg btn-primary form-floating mb-2" onclick="location.href='${pageContext.request.contextPath}/user/join'">회원가입</button>
-		</form>
-	</div>
+		</c:when>
+		<c:otherwise>
+			<script>
+				location.href="${pageContext.request.contextPath}/board/list";
+			</script>
+		</c:otherwise>
+	</c:choose>
+
 <%@include file="../includes/footer.jsp"%>
 </div>
 </body>

@@ -1,5 +1,7 @@
 package com.example.board.service;
 
+import javax.servlet.http.HttpSession;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,11 +34,32 @@ public class UserServiceImpl implements UserService {
 		return userDAO.idCheck(userId);
 	}
 
-//	@Override
-//	public void create(BoardDTO boardDTO) throws Exception {
-//		boardDAO.create(boardDTO);
-//	}
+	@Override
+	public boolean login(UserDTO userDTO, HttpSession session) throws Exception {
+		log.info("login(UserDTO userDTO) - {}", userDTO);
+		boolean result = userDAO.login(userDTO);
+		log.info("{}", result);
+		if(result) {
+			UserDTO loginUser = loginUserInfo(userDTO);
+			
+			session.setAttribute("userId", loginUser.getUserId());
+			session.setAttribute("nickName", loginUser.getNickName());
+		}
+		
+		return result;
+	}
 
+	@Override
+	public UserDTO loginUserInfo(UserDTO userDTO) throws Exception {
+		log.info("로그인한 회원 정보 - {}", userDTO);
+		return userDAO.loginUserInfo(userDTO);
+	}
+
+	@Override
+	public void logout(HttpSession session) throws Exception {
+		log.info("로그아웃");
+		session.invalidate();
+	}
 
 
 }

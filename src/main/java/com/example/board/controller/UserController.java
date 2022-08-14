@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -36,30 +37,42 @@ public class UserController {
 		log.info("유저 회원가입 페이지");
 		
 		mv.setViewName("user/join");
-		mv.addObject("", "");
 		
 		return mv;
 	}
 	
 	@PostMapping("/join")
-	public String join(UserDTO userDTO) throws Exception {
+	public ModelAndView join(UserDTO userDTO, Model model) throws Exception {
 		
-		userService.join(userDTO);
-		
+		ModelAndView mv = new ModelAndView();
 		log.info("유저 회원가입 처리 - {}", userDTO.toString());
 		
-		return "redirect:/user/login";
+		mv.setViewName("user/join");
+		if(userService.join(userDTO)) {
+			mv.addObject("message", "회원가입을 축하합니다.");
+		}
+		
+		return mv; 
 	}
 	
 	@PostMapping("/idCheck")
 	@ResponseBody
 	public String idCheck(@RequestParam("userId") String userId) throws Exception {
-		log.info("userId : {}" , userId);
+		log.info("userId 중복 검사");
 		int cnt = userService.idCheck(userId);
 		
 		String result = Integer.toString(cnt);
 		
-		log.info("cnt : {}" , cnt);
+		return result;
+	}
+	
+	@PostMapping("/nickNameCheck")
+	@ResponseBody
+	public String nickNameCheck(@RequestParam("nickName") String nickName) throws Exception {
+		log.info("nickName 중복 검사");
+		int cnt = userService.nickNameCheck(nickName);
+		
+		String result = Integer.toString(cnt);
 		
 		return result;
 	}
@@ -76,26 +89,30 @@ public class UserController {
 	}
 	
 	@PostMapping("/login")
-	public String login(UserDTO userDTO, HttpSession session) throws Exception {
+	@ResponseBody
+	public ModelAndView login(UserDTO userDTO, HttpSession session) throws Exception {
+		
 		boolean result = userService.login(userDTO, session);
 		
+		ModelAndView mv = new ModelAndView();
 		log.info("유저 로그인 처리");
+		
+		mv.setViewName("user/login");
+		
 		if(result == true) {
-			log.info("로그인 성공");
-			return "redirect:/board/list";
 		} else {
-			log.info("로그인 실패");
-			return "redirect:/user/login";
+			mv.addObject("userId", userDTO.getUserId().toString());
+			mv.addObject("message", "fail");
 		}
-		
-		
+		return mv;
 	}
 	
-	@GetMapping("logout")
-	public String logout(HttpSession session, String userId) throws Exception {
-		log.info(session.getId());
+	@GetMapping("/logout")
+	public String logout(HttpSession session) throws Exception {
+		log.info("유저 로그아웃 처리");
 		userService.logout(session);
 		
 		return "redirect:/board/list";
 	}
+	
 }

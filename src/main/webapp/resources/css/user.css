@@ -4,14 +4,16 @@
 	width: 300px;
 }
 
-.idCheck {
+.check {
 	display: none;
 }
 
 .ok {
 	color: #6A82FB;
+	font-size: 15px;
 }
 
 .no {
 	color: red;
+	font-size: 15px;
 }

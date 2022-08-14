@@ -27,6 +27,16 @@
 			userId = #{userId}
 	</select>
 
+	<!-- 닉네임 중복 체크 -->
+	<select id="nickNameCheck" resultType="int">
+		SELECT 
+			COUNT(nickName) 
+		FROM 
+			users 
+		WHERE 
+			nickName = #{nickName}
+	</select>
+
 	<!-- 로그인 -->
 	<select id="login" resultType="String">
 		SELECT 

@@ -23,15 +23,24 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public void join(UserDTO userDTO) throws Exception {
+	public boolean join(UserDTO userDTO) throws Exception {
 		log.info("join(UserDTO userDTO)");
-		userDAO.join(userDTO);
+		if(userDAO.join(userDTO)) {
+			return true;
+		}
+		return false;
 	}
 
 	@Override
 	public int idCheck(String userId) throws Exception {
 		log.info("idCheck(String userId) - {}", userId);
 		return userDAO.idCheck(userId);
+	}
+
+	@Override
+	public int nickNameCheck(String nickName) throws Exception {
+		log.info("nickNameCheck(String nickName) - {}", nickName);
+		return userDAO.nickNameCheck(nickName);
 	}
 
 	@Override

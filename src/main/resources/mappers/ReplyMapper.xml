@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC 
+	"-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+
+<mapper namespace="com.example.board.mappers.ReplyMapper">
+	
+	<!-- 댓글 목록  -->
+	<insert id="create">
+		INSERT INTO reply (
+			replyContent,
+			replyUserId,
+			boardNum
+		) values (
+			#{replyContent}, #{replyUserId}, ${boardNum}
+		)
+	</insert>
+
+	<select id="read" resultType="com.example.board.dto.ReplyDTO">
+		SELECT
+			r.replyContent,
+			u.nickName as replyNickName,
+			r.replyRegDate,
+			r.replyNum
+		FROM
+			reply r, users u
+		WHERE 
+			r.replyUserId = u.userId and r.boardNum = ${boardNum}
+		ORDER BY
+			r.replyRegDate asc
+	</select>		
+	<!-- 
+	public List<ReplyDTO> list(int boardNum);
+	
+	// 댓글 쓰기
+	public void create(ReplyDTO replyDTO);
+
+	// 댓글 수정
+	public void update(ReplyDTO replyDTO);
+	
+	// 댓글 삭제
+	public void delete(int replyNum); -->
+
+</mapper>

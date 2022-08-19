@@ -24,44 +24,27 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public boolean join(UserDTO userDTO) throws Exception {
-		log.info("join(UserDTO userDTO)");
-		if(userDAO.join(userDTO)) {
-			return true;
-		}
-		return false;
+		return userDAO.join(userDTO);
 	}
 
 	@Override
 	public int idCheck(String userId) throws Exception {
-		log.info("idCheck(String userId) - {}", userId);
 		return userDAO.idCheck(userId);
 	}
 
 	@Override
 	public int nickNameCheck(String nickName) throws Exception {
-		log.info("nickNameCheck(String nickName) - {}", nickName);
 		return userDAO.nickNameCheck(nickName);
 	}
 
 	@Override
-	public boolean login(UserDTO userDTO, HttpSession session) throws Exception {
-		log.info("login(UserDTO userDTO) - {}", userDTO);
-		boolean result = userDAO.login(userDTO);
-		log.info("{}", result);
-		if(result) {
-			UserDTO loginUser = loginUserInfo(userDTO);
-			
-			session.setAttribute("userId", loginUser.getUserId());
-			session.setAttribute("nickName", loginUser.getNickName());
-		}
-		
-		return result;
+	public boolean login(UserDTO userDTO) throws Exception {
+		return userDAO.login(userDTO);
 	}
 
 	@Override
-	public UserDTO loginUserInfo(UserDTO userDTO) throws Exception {
-		log.info("로그인한 회원 정보 - {}", userDTO);
-		return userDAO.loginUserInfo(userDTO);
+	public UserDTO loginUserInfo(String userId) throws Exception {
+		return userDAO.loginUserInfo(userId);
 	}
 
 	@Override

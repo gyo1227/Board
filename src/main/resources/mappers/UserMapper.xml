@@ -9,7 +9,9 @@
 	<!-- 회원가입 -->
 	<insert id="join">
 		INSERT INTO users (
-			userId, userPw, nickName
+			userId,
+			userPw,
+			nickName
 		) values (
 			#{userId},
 			#{userPw},
@@ -47,12 +49,15 @@
 			userId = #{userId} AND userPw = #{userPw}
 	</select>
 	
+	<!-- 닉네임 가져오기 -->
 	<select id="loginUserInfo" resultType="com.example.board.dto.UserDTO">
-		SELECT
+		SELECT 
 			userId, nickName
-		FROM 
+		FROM
 			users
-		WHERE userId = #{userId} AND userPw = #{userPw}
+		WHERE
+			userId = #{userId}
 	</select>
+	
 
 </mapper>

@@ -6,13 +6,11 @@
 	resize: none;
 }
 
-.reply {
+
+/* list */
+.board-list .reply {
 	color: #f94b4b;
 	font-weight: bold;
-}
-
-.text-center {
-	text-align: center;
 }
 
 .board-list>table tr:hover {
@@ -30,3 +28,103 @@
 .write-form {
 	width: 900px;
 }
+
+/* view */
+.board-info {
+	
+}
+
+.board-title {
+	color: #A52A2A;
+}
+
+.board-content {
+	
+}
+
+.view-Opt {
+	height: 24px;
+	display: flex;
+	justify-content: flex-end;
+}
+
+.view-Opt a {
+	padding: 0 8px;
+}
+
+/* reply */
+
+.reply-border-top {
+	border-top: 1px solid #ccc;
+}
+
+.reply-form {
+	width: 100%;
+	background: #f8f8f8;
+	padding: 20px;
+	margin: 20px 0;
+}
+
+.reply-input-btn {
+	display: flex;
+	align-items: flex-end;
+	line-height: 1;
+}
+
+.reply-input {
+	width: 100%;
+	min-height: 70px;
+}
+
+.reply-input textarea {
+	width: 100%;
+	min-height: 70px;
+}
+
+.reply-btn {
+	margin-left: 9px;
+	height: 72px;
+}
+
+.reply-submit {
+	width: 68px;
+	height: 100%;
+	border: 1px solid #ccc; 
+	background:#ffffff;	
+}
+
+.reply-list ul {
+	list-style: none;
+}
+
+.replyOne {
+	padding: 10px;
+	border-bottom: 1px solid #dcdcdc;;
+}
+
+.nickName {
+	font-weight: bold;
+	font-size: 16px;
+}
+
+.regDate {
+	font-size: 12px;
+}
+
+.rereply {
+	font-size:12px;
+	display:flex;
+	justify-content: flex-end;
+}
+
+/* update */
+.btn-right {
+	margin-left: 8px;
+}
+
+
+
+
+
+
+

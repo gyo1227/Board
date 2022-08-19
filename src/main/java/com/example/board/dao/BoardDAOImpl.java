@@ -9,7 +9,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
-import com.example.board.controller.BoardController;
 import com.example.board.dto.BoardDTO;
 
 @Repository
@@ -29,7 +28,6 @@ public class BoardDAOImpl implements BoardDAO{
 	// 게시글 작성
 	@Override
 	public void create(BoardDTO boardDTO) throws Exception {
-		log.info("게시글 작성 - {}",boardDTO);
 		sqlsession.insert(NAMESPACE + ".create", boardDTO);
 	}
 
@@ -42,15 +40,13 @@ public class BoardDAOImpl implements BoardDAO{
 	// 게시글 수정
 	@Override
 	public void update(BoardDTO boardDTO) throws Exception {
-		// TODO Auto-generated method stub
-		
+		sqlsession.update(NAMESPACE + ".update", boardDTO);
 	}
 
 	// 게시글 삭제
 	@Override
 	public void delete(int boardNum) throws Exception {
-		// TODO Auto-generated method stub
-		
+		sqlsession.delete(NAMESPACE + ".delete", boardNum);
 	}
 
 	// 게시글 전체 조회
@@ -62,8 +58,7 @@ public class BoardDAOImpl implements BoardDAO{
 	// 게시글 조회수 증가
 	@Override
 	public void incViewCnt(int boardNum) throws Exception {
-		// TODO Auto-generated method stub
-		
+		sqlsession.update(NAMESPACE + ".incViewCnt", boardNum);
 	}
 
 }

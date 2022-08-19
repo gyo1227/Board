@@ -2,12 +2,15 @@ package com.example.board.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -29,15 +32,13 @@ public class BoardController {
 	public void setBoardService(BoardService boardService) {
 		this.boardService = boardService;
 	}
-
+	
+	// 게시글 전체 조회
 	@GetMapping("/list")
 	public ModelAndView list() throws Exception {
 		
 		List<BoardDTO> list = boardService.listAll();
-		
 		ModelAndView mv = new ModelAndView();
-		log.info("게시판 리스트 페이지");
-		log.info("{}", list);
 		mv.setViewName("board/list");
 		mv.addObject("list", list);
 		
@@ -46,6 +47,7 @@ public class BoardController {
 	
 	@GetMapping("/write")
 	public ModelAndView write() {
+		
 		ModelAndView mv = new ModelAndView();
 		log.info("게시판 작성 페이지");
 		
@@ -55,9 +57,10 @@ public class BoardController {
 	}
 	
 	@PostMapping("/write")
-	public String write(HttpSession session, BoardDTO boardDTO) throws Exception {
+	public String write(BoardDTO boardDTO, HttpSession session) throws Exception {
 
-		boardService.create(session, boardDTO);
+		boardDTO.setUserId(session.getAttribute("userId").toString());
+		boardService.create(boardDTO);
 		
 		log.info("게시판 작성 처리 - {}", boardDTO.toString());
 		
@@ -66,7 +69,6 @@ public class BoardController {
 	
 	@GetMapping("/view/{boardNum}")
 	public ModelAndView view(@PathVariable("boardNum") int boardNum) throws Exception {
-		
 		BoardDTO boardDTO = boardService.read(boardNum);
 		
 		ModelAndView mv = new ModelAndView();
@@ -74,8 +76,49 @@ public class BoardController {
 		log.info("{}", boardDTO);
 		
 		mv.setViewName("board/view");
-		mv.addObject("dto", boardDTO);
+		mv.addObject("boardDTO", boardDTO);
 		
 		return mv;
+	}
+
+	@GetMapping("/update/{boardNum}")
+	public ModelAndView update(@PathVariable("boardNum") int boardNum) throws Exception {
+		
+		BoardDTO boardDTO = boardService.read(boardNum);
+		
+		ModelAndView mv = new ModelAndView();
+		log.info("게시판 수정 페이지");
+		log.info("{}", boardDTO.getUserId());
+		
+		mv.setViewName("board/update");
+		mv.addObject("boardDTO", boardDTO);
+		
+		return mv;
+	}
+	
+	@PostMapping("/update/{boardNum}")
+	public String update(HttpSession session, BoardDTO boardDTO, HttpServletRequest request) throws Exception {
+		
+		if(session.getAttribute("userId") == null) {
+			request.setAttribute("msg", "로그인이 필요합니다.");
+			request.setAttribute("url", "/user/login");
+			
+			return "includes/alert";
+		}
+		
+		boardService.update(session, boardDTO);
+		
+		log.info("게시판 수정 처리 - {}", boardDTO.toString());
+		
+		return "redirect:/board/view/" + boardDTO.getBoardNum();
+	}
+	
+	@GetMapping("/delete/{boardNum}")
+	public String delete(@PathVariable("boardNum") int boardNum, HttpSession session) throws Exception {
+		
+		boardService.delete(session, boardNum);
+		log.info("게시판 삭제 처리");
+		
+		return "redirect:/board/list";
 	}
 }

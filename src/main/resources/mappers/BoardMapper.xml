@@ -9,50 +9,86 @@
 	<!-- 게시글 전체 조회 -->
 	<select id="listAll" resultType="com.example.board.dto.BoardDTO">
 		SELECT
-			boardNum,
-			title,
-			content,
-			nickName,
-			regDate,
-			viewCnt,
-			replyCnt
+			b.boardNum,
+			b.title,
+			b.content,
+			u.nickName,
+			b.regDate,
+			b.viewCnt,
+			(
+				SELECT 
+					count(*) 
+				FROM 
+					reply r 
+				WHERE 
+					r.boardNum = b.boardNum
+			) as replyCnt
 		FROM
-			board
+			board b, users u
+		WHERE
+			b.userId = u.userId
 		ORDER BY
 			boardNum desc,
-			regDate desc
+			regDate desc;
 	</select>
 	
 	<!-- 게시글 작성 -->
 	<insert id="create">
 		INSERT INTO board (
-			title, content, nickName, userId
+			title,
+			content,
+			userId
 		) values (
 			#{title},
 			#{content},
-			#{nickName},
 			#{userId}
 		)
 	</insert>
 	
 	<!-- 게시글 상세보기 -->
 	<select id="read" resultType="com.example.board.dto.BoardDTO">
-		SELECT * FROM board WHERE boardNum = ${boardNum}
+		SELECT
+			b.boardNum,
+			b.title,
+			b.content,
+			b.regDate,
+			b.viewCnt,
+			b.replyCnt,
+			b.userId,
+			u.nickName
+		FROM
+			board b, users u
+		WHERE
+			b.userId = u.userId and boardNum = ${boardNum}
 	</select>
 	
 	<!-- 게시글 조회수 증가 -->
 	<update id="incViewCnt">
-	
+		UPDATE
+			board
+		SET
+			viewCnt = viewCnt + 1
+		WHERE
+			boardNum = #{boardNum}
 	</update>
 	
 	<!-- 게시글 수정 -->
 	<update id="update">
-	
+		UPDATE
+			board
+		SET 
+			title = #{title}, content = #{content}
+		WHERE
+			boardNum = #{boardNum}
 	</update>
 	
 	<!-- 게시글 삭제 -->
 	<delete id="delete">
-	
+		DELETE
+		FROM
+			board
+		WHERE
+			boardNum = #{boardNum}
 	</delete>
 
 </mapper>

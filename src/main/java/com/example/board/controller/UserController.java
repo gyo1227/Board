@@ -1,5 +1,6 @@
 package com.example.board.controller;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
@@ -42,7 +43,7 @@ public class UserController {
 	}
 	
 	@PostMapping("/join")
-	public ModelAndView join(UserDTO userDTO, Model model) throws Exception {
+	public ModelAndView join(UserDTO userDTO) throws Exception {
 		
 		ModelAndView mv = new ModelAndView();
 		log.info("유저 회원가입 처리 - {}", userDTO.toString());
@@ -91,15 +92,15 @@ public class UserController {
 	@PostMapping("/login")
 	@ResponseBody
 	public ModelAndView login(UserDTO userDTO, HttpSession session) throws Exception {
-		
-		boolean result = userService.login(userDTO, session);
-		
+		boolean result = userService.login(userDTO);
 		ModelAndView mv = new ModelAndView();
-		log.info("유저 로그인 처리");
 		
 		mv.setViewName("user/login");
 		
-		if(result == true) {
+		if(result) {
+			userDTO = userService.loginUserInfo(userDTO.getUserId());
+			session.setAttribute("userId", userDTO.getUserId());
+			session.setAttribute("nickName", userDTO.getUserId());
 		} else {
 			mv.addObject("userId", userDTO.getUserId().toString());
 			mv.addObject("message", "fail");

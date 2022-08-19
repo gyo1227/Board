@@ -17,6 +17,6 @@ public interface UserDAO {
 	public boolean login(UserDTO userDTO) throws Exception;
 	
 	// 로그인한 회원 정보
-	public UserDTO loginUserInfo(UserDTO userDTO) throws Exception;
+	public UserDTO loginUserInfo(String userId) throws Exception;
 	
 }

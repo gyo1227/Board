@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.example.board.controller.BoardController;
 import com.example.board.dao.BoardDAO;
@@ -26,36 +27,29 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
-	public void create(HttpSession session, BoardDTO boardDTO) throws Exception {
-		boardDTO.setUserId(session.getAttribute("userId").toString());
-		boardDTO.setNickName(session.getAttribute("nickName").toString());
+	public void create(BoardDTO boardDTO) throws Exception {
 		boardDAO.create(boardDTO);
 	}
 
 	@Override
 	public BoardDTO read(int boardNum) throws Exception {
+		boardDAO.incViewCnt(boardNum);
 		return boardDAO.read(boardNum);
 	}
 
 	@Override
-	public void update(BoardDTO boardDTO) throws Exception {
+	public void update(HttpSession session, BoardDTO boardDTO) throws Exception {
 		boardDAO.update(boardDTO);
 	}
 
 	@Override
-	public void delete(int boardNum) throws Exception {
+	public void delete(HttpSession session, int boardNum) throws Exception {
 		boardDAO.delete(boardNum);
 	}
 
 	@Override
 	public List<BoardDTO> listAll() throws Exception {
 		return boardDAO.listAll();
-	}
-
-	@Override
-	public void incViewCnt(int boardNum) throws Exception {
-		// TODO Auto-generated method stub
-
 	}
 
 }

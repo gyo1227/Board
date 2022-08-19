@@ -48,8 +48,8 @@ public class UserDAOImpl implements UserDAO {
 	}
 
 	@Override
-	public UserDTO loginUserInfo(UserDTO userDTO) throws Exception {
-		return sqlsession.selectOne(NAMESPACE + ".loginUserInfo", userDTO);
+	public UserDTO loginUserInfo(String userId) throws Exception {
+		return sqlsession.selectOne(NAMESPACE + ".loginUserInfo", userId);
 	}
 
 }

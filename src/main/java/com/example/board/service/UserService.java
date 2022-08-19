@@ -16,10 +16,10 @@ public interface UserService {
 	public int nickNameCheck(String nickName) throws Exception;
 	
 	// 로그인
-	public boolean login(UserDTO userDTO, HttpSession session) throws Exception;
+	public boolean login(UserDTO userDTO) throws Exception;
 	
-	// 로그인한 회원 정보
-	public UserDTO loginUserInfo(UserDTO userDTO) throws Exception;
+	// 로그인 한 회원정보 가져오기
+	public UserDTO loginUserInfo(String userId) throws Exception;
 	
 	// 로그아웃
 	public void logout(HttpSession session) throws Exception;

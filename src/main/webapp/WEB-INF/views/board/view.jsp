@@ -34,6 +34,9 @@ function replyList(){
 		type: 'get',
 		data: data,
 		success:function(result){
+			var replyCnt = result.length
+			$('#replyCnt').text(replyCnt)
+			
 			var list = '<ul>';
 			for(var i in result) {
 				list += '<li class="replyOne" id="' + result[i].replyNum + '">';
@@ -155,9 +158,9 @@ function delete_(){
 		<div class="reply">
 			<div class="pb-2">
 				<i class="bi bi-chat"></i>
-				<span style="font-size: 1.3rem;">댓글</span> (<c:out value="${boardDTO.replyCnt }"/>)
+				<span style="font-size: 1.3rem;">댓글</span> (<span id="replyCnt"></span>)
 			</div>
-			<div class="reply-border-top">
+			<div class="reply-border-top"><!-- <c:out value="${boardDTO.replyCnt }"/> -->
 				<div class="reply-form">
 					<div class="reply-input-btn">
 						<div class="reply-input">

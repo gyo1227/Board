@@ -21,7 +21,7 @@ import com.example.board.service.ReplyService;
 @RequestMapping("/reply")
 public class ReplyController {
 
-	private static final Logger log = LoggerFactory.getLogger(ReplyController.class);
+//	private static final Logger log = LoggerFactory.getLogger(ReplyController.class);
 	
 	@Autowired
 	private ReplyService replyService;
@@ -41,9 +41,7 @@ public class ReplyController {
 	@GetMapping("/replyList/{boardNum}")
 	@ResponseBody
 	public List<ReplyDTO> replyList(@PathVariable int boardNum) {
-		log.info("{}", boardNum);
 		List<ReplyDTO> list = replyService.list(boardNum);
-		log.info("{}", list);
 		return list;
 	}
 	

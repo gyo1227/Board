@@ -53,13 +53,13 @@
 			b.content,
 			b.regDate,
 			b.viewCnt,
-			b.replyCnt,
+			count(r.replyNum) as replyCnt,
 			b.userId,
 			u.nickName
 		FROM
-			board b, users u
+			board b, users u, reply r
 		WHERE
-			b.userId = u.userId and boardNum = ${boardNum}
+			b.userId = u.userId and b.boardNum = ${boardNum} and b.boardNum = r.boardNum;
 	</select>
 	
 	<!-- 게시글 조회수 증가 -->

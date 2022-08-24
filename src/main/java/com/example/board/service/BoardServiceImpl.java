@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.example.board.controller.BoardController;
 import com.example.board.dao.BoardDAO;
 import com.example.board.dto.BoardDTO;
+import com.example.board.dto.PageDTO;
 
 @Service
 public class BoardServiceImpl implements BoardService {
@@ -48,8 +49,13 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
-	public List<BoardDTO> listAll() throws Exception {
-		return boardDAO.listAll();
+	public List<BoardDTO> list(PageDTO pageDTO) throws Exception {
+		return boardDAO.list(pageDTO);
+	}
+	
+	@Override
+	public int total(PageDTO pageDTO) throws Exception {
+		return boardDAO.total(pageDTO);
 	}
 
 }

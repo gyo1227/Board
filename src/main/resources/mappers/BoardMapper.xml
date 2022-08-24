@@ -2,12 +2,11 @@
 <!DOCTYPE mapper PUBLIC 
 	"-//mybatis.org//DTD Mapper 3.0//EN" 
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-    
 
 <mapper namespace="com.example.board.mappers.BoardMapper">
 	
 	<!-- 게시글 전체 조회 -->
-	<select id="listAll" resultType="com.example.board.dto.BoardDTO">
+	<select id="list" resultType="com.example.board.dto.BoardDTO">
 		SELECT
 			b.boardNum,
 			b.title,
@@ -27,9 +26,27 @@
 			board b, users u
 		WHERE
 			b.userId = u.userId
+		<if test="option != ''">
+			<choose>
+				<when test='option == "title"'>
+					and title like concat('%','${query}','%')
+				</when>
+				<when test='option == "content"'>
+					and content like concat('%','${query}','%')
+				</when>
+				<when test='option == "nickName"'>
+					and nickName like concat('%','${query}','%')
+				</when>
+				<when test='option == "titleContent"'>
+					and (title like concat('%','${query}','%')
+					or content like concat('%','${query}','%'))
+				</when>
+			</choose>
+		</if>
 		ORDER BY
 			boardNum desc,
-			regDate desc;
+			regDate desc
+		limit #{firstBoardNum}, #{amount}
 	</select>
 	
 	<!-- 게시글 작성 -->
@@ -90,5 +107,30 @@
 		WHERE
 			boardNum = #{boardNum}
 	</delete>
+	
+	<select id="total" resultType="int">
+		SELECT 
+			count(*) 
+		from 
+			board
+		<if test="option != ''">
+			<trim prefix="WHERE">
+				<choose>
+					<when test='option == "title"'>
+						title like concat('%','${query}','%')
+					</when>
+					<when test='option == "content"'>
+						content like concat('%','${query}','%')
+					</when>
+					<when test='option == "titleContent"'>
+						title like concat('%','${query}','%') or content like concat('%','${query}','%')
+					</when>
+				</choose>
+			</trim>
+		</if>
+		<if test='option == "nickName"'>
+			b, users u where b.userId = u.userId and nickName like concat('%','${query}','%')
+		</if>
+	</select>
 
 </mapper>

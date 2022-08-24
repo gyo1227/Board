@@ -29,6 +29,51 @@
 	width: 900px;
 }
 
+#nolist {
+	text-align: center;
+}
+
+/* search-bar */
+.select-list {
+	display: flex;
+	height: 38px;
+	justify-content: center;
+	line-height: 1;
+}
+
+#option {
+	width: 114px;
+	height: 38px;
+	margin-right: 3px;
+	border-radius:0.25rem;
+}
+
+#query {
+	width: 220px;
+	height: 38px;
+	border:1px solid #ccc;
+	border-radius:0.25rem;
+}
+
+#select-btn {
+	margin-left: 3px;
+	border-radius:0.25rem;
+}
+
+/* pagination */
+#pagination {
+	margin: 20px 0;
+}
+
+/* .page-link {
+	color: #212529;
+}
+.page-link:hover {
+	color: #212529;
+} */
+
+
+
 /* view */
 .board-info {
 	

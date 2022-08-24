@@ -15,9 +15,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.example.board.dto.BoardDTO;
+import com.example.board.dto.PageDTO;
 import com.example.board.service.BoardService;
 
 @Controller
@@ -35,16 +37,27 @@ public class BoardController {
 	
 	// 게시글 전체 조회
 	@GetMapping("/list")
-	public ModelAndView list() throws Exception {
+	public ModelAndView list(@RequestParam(value="p", defaultValue="1") int curPage, @RequestParam(defaultValue = "") String option, @RequestParam(defaultValue = "") String query) throws Exception {
 		
-		List<BoardDTO> list = boardService.listAll();
+		int total = boardService.total(new PageDTO(option, query));
+		PageDTO pageDTO = new PageDTO(total, curPage, option, query);
+		List<BoardDTO> list = boardService.list(pageDTO);
+
+		
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("board/list");
+		mv.addObject("total", total);
+		mv.addObject("pageDTO", pageDTO);
 		mv.addObject("list", list);
+		
+		if(curPage > pageDTO.getEndPage()) {
+			mv.addObject("total", 0);
+			mv.addObject("list", null);
+		}
 		
 		return mv;
 	}
-	
+
 	@GetMapping("/write")
 	public ModelAndView write() {
 		

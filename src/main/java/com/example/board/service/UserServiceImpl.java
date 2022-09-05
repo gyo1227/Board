@@ -49,9 +49,22 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public void logout(HttpSession session) throws Exception {
-		log.info("로그아웃");
 		session.invalidate();
 	}
-
+	
+	@Override
+	public void changePw(UserDTO userDTO) throws Exception {
+		userDAO.changePw(userDTO);
+	}
+	
+	@Override
+	public void changeNickName(UserDTO userDTO) throws Exception {
+		userDAO.changeNickName(userDTO);
+	}
+	
+	@Override
+	public void deleteUser(String userId) throws Exception {
+		userDAO.deleteUser(userId);
+	}
 
 }

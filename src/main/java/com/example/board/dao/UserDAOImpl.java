@@ -12,7 +12,7 @@ import com.example.board.dto.UserDTO;
 @Repository
 public class UserDAOImpl implements UserDAO {
 
-//	private static final Logger log = LoggerFactory.getLogger(UserDAOImpl.class);
+	private static final Logger log = LoggerFactory.getLogger(UserDAOImpl.class);
 	
 	@Inject
 	private SqlSession sqlsession;
@@ -50,6 +50,21 @@ public class UserDAOImpl implements UserDAO {
 	@Override
 	public UserDTO loginUserInfo(String userId) throws Exception {
 		return sqlsession.selectOne(NAMESPACE + ".loginUserInfo", userId);
+	}
+	
+	@Override
+	public void changePw(UserDTO userDTO) throws Exception {
+		sqlsession.update(NAMESPACE + ".changePw", userDTO);
+	}
+	
+	@Override
+	public void changeNickName(UserDTO userDTO)throws Exception {
+		sqlsession.update(NAMESPACE + ".changeNickName", userDTO);
+	}
+	
+	@Override
+	public void deleteUser(String userId) throws Exception {
+		sqlsession.delete(NAMESPACE + ".deleteUser", userId);
 	}
 
 }

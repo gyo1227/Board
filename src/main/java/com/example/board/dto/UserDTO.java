@@ -21,13 +21,6 @@ public class UserDTO {
 		super();
 	}
 
-	public UserDTO(String userId, String userPw, String nickName) {
-		super();
-		this.userId = userId;
-		this.userPw = userPw;
-		this.nickName = nickName;
-	}
-
 	public String getUserId() {
 		return userId;
 	}

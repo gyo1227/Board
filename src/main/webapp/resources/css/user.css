@@ -1,5 +1,14 @@
 @charset "UTF-8";
 
+small {
+	font-size: 12px;
+	color: #999;
+}
+
+.form {
+	/* background-color: #f7f7f7; */
+}
+
 .user-form {
 	width: 300px;
 }
@@ -17,3 +26,175 @@
 	color: red;
 	font-size: 15px;
 }
+
+.main {
+    display: flex;
+    justify-content: center;
+	padding-top: 120px;
+	background-color: #f7f7f7;
+	flex: 1;
+}
+
+.side {
+	margin-right: 60px;
+	float: left;
+}
+
+.nav-list .active {
+	background: #ffffff;
+	font-weight: bold;
+}
+
+.nav-list li {
+	list-style: none;
+}
+
+.nav-list a {
+	width: 224px;
+	display: block;
+	padding: 12px;
+	border: 1px solid #d9d9d9;
+	border-top: none;
+}
+
+.nav-list li:nth-child(1) {
+	border-top: 1px solid #d9d9d9;
+}
+
+.nav-list .active i {
+	color: red;
+}
+
+.nav-list i {
+	float: right;
+}
+
+.user-table {
+	display: flex;
+    flex-direction: column;
+    border: 1px solid #d9d9d9;
+    padding: 40px;
+    background: #ffffff
+}
+
+.user-title {
+	padding: 20px 0;
+	width: 100%;
+	border-bottom: 1px solid #d9d9d9;
+	margin-bottom: 20px;
+}
+
+.user-title h3 {
+	margin-bottom: 0;
+}
+
+.table-body {
+	width: 700px;
+}
+
+.user-info-tbody {
+	border: 1px solid #d9d9d9;
+	height: 40px;
+	border-right: 0;
+	border-left: 0;
+}
+
+.user-info-th, .user-info-td {
+	padding: 10px 20px;
+	
+}
+
+.user-info-th {
+	border-right: 1px solid #d9d9d9; 
+	background-color: #f7f7f7;
+}
+
+#password_modify_on {
+	display: none;
+}
+
+#nickName_modify_on {
+	display: none;
+}
+
+#delete_user_on {
+	display: none;
+}
+
+.mybtn {
+    font-size: 14px;
+    border: 1px solid #d1d1d1;
+    color: #666;
+    padding: 4px 10px;
+    border-radius: 5px;
+}
+
+.input-group {
+	margin: 10px 0;
+}
+
+.myInput {
+	width: 100%;
+	border: 1px solid #d9d9d9;
+	border-radius: 4px;
+}
+
+
+.myModal {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.hidden {
+	display: none;
+}
+
+.myModal .bg {
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.6);
+}
+
+.modalBox {
+	position: fixed;
+    top: 30%;
+    z-index: 101;
+    min-width: 320px;
+    text-align: center;
+    background-color: #fff;
+    border: 1px solid #767676;
+    border-radius: 4px;
+}
+
+.modalBox .modalContent {
+	text-align: center;
+	font-size: 13px;
+	padding-top: 20px;
+	padding-bottom: 10px;
+}
+
+.modalBox .modalFooter {
+	text-align: center;
+	padding-top: 10px;
+	padding-bottom: 20px;
+}
+
+#modalClosed {
+    border: none;
+    border-radius: 4px;
+    font-weight: bold;
+    padding: 5px 10px;
+    font-size: 13px;
+}
+
+#modalClosed:hover {
+	background-color: #red;
+}
+
+

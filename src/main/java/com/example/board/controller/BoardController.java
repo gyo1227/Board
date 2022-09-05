@@ -86,7 +86,6 @@ public class BoardController {
 		
 		ModelAndView mv = new ModelAndView();
 		log.info("게시판 상세보기 페이지");
-		log.info("{}", boardDTO);
 		
 		mv.setViewName("board/view");
 		mv.addObject("boardDTO", boardDTO);
@@ -101,7 +100,6 @@ public class BoardController {
 		
 		ModelAndView mv = new ModelAndView();
 		log.info("게시판 수정 페이지");
-		log.info("{}", boardDTO.getUserId());
 		
 		mv.setViewName("board/update");
 		mv.addObject("boardDTO", boardDTO);

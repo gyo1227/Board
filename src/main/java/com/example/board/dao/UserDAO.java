@@ -19,4 +19,12 @@ public interface UserDAO {
 	// 로그인한 회원 정보
 	public UserDTO loginUserInfo(String userId) throws Exception;
 	
+	// 비밀번호 변경
+	public void changePw(UserDTO userDTO) throws Exception; 
+	
+	// 닉네임 변경
+	public void changeNickName(UserDTO userDTO)throws Exception;
+	
+	// 회원 탈퇴
+	public void deleteUser(String userId) throws Exception;
 }

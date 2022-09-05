@@ -10,7 +10,7 @@ function logout(){
 	return false;
 }
 </script>
-<header class="p-3 mb-3 border-bottom">
+<header class="p-3 border-bottom">
 
 	<div class="container header bold">
 		
@@ -26,7 +26,7 @@ function logout(){
 						${sessionScope.nickName }님
 					</a>
 					<ul class="dropdown-menu text-small">
-						<li><a class="dropdown-item" href="${pageContext.request.contextPath}/user/login">회원정보수정</a></li>
+						<li><a class="dropdown-item" href="${pageContext.request.contextPath}/user/info">회원정보</a></li>
 						<li><a class="dropdown-item" href="${pageContext.request.contextPath}/user/logout" onclick="return logout()">로그아웃</a></li>
 					</ul>
 				</c:when>

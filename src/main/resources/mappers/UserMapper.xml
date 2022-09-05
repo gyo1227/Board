@@ -59,5 +59,29 @@
 			userId = #{userId}
 	</select>
 	
+	<update id="changePw">
+		UPDATE
+			users
+		SET
+			userPw = #{userPw}
+		WHERE
+			userId = #{userId}
+	</update>
 
+	<update id="changeNickName">
+		UPDATE
+			users
+		SET
+			nickName = #{nickName}
+		WHERE
+			userId = #{userId}
+	</update>
+	
+	<delete id="deleteUser">
+	DELETE
+	FROM
+		users
+	WHERE
+		userId = #{userId}
+	</delete>
 </mapper>

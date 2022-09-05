@@ -24,4 +24,12 @@ public interface UserService {
 	// 로그아웃
 	public void logout(HttpSession session) throws Exception;
 	
+	// 비밀번호 변경
+	public void changePw(UserDTO userDTO) throws Exception; 
+	
+	// 닉네임 변경
+	public void changeNickName(UserDTO userDTO)throws Exception;
+	
+	// 회원 탈퇴
+	public void deleteUser(String userId) throws Exception;
 }

@@ -1,13 +1,14 @@
 package com.example.board.controller;
 
-import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -100,7 +101,7 @@ public class UserController {
 		if(result) {
 			userDTO = userService.loginUserInfo(userDTO.getUserId());
 			session.setAttribute("userId", userDTO.getUserId());
-			session.setAttribute("nickName", userDTO.getUserId());
+			session.setAttribute("nickName", userDTO.getNickName());
 		} else {
 			mv.addObject("userId", userDTO.getUserId().toString());
 			mv.addObject("message", "fail");
@@ -114,6 +115,119 @@ public class UserController {
 		userService.logout(session);
 		
 		return "redirect:/board/list";
+	}
+	
+	@GetMapping("/info")
+	public ModelAndView update(HttpSession session) throws Exception {
+		
+		ModelAndView mv = new ModelAndView();
+		log.info("유저 회원정보 페이지");
+		
+		if(session.getAttribute("userId") != null) {
+			String userId = session.getAttribute("userId").toString();
+			UserDTO userDTO = userService.loginUserInfo(userId);
+			
+			mv.setViewName("user/info");
+			mv.addObject("userDTO", userDTO);
+		} else {
+			mv.setViewName("user/info");
+		}
+		
+		return mv;
+	}
+	
+	@PostMapping("/changePw")
+	@ResponseBody
+	public Map<String, Object> changePw(HttpSession session, String curPw, String newPw) throws Exception {
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		if(session.getAttribute("userId") != null) {
+			String userId = session.getAttribute("userId").toString();
+			UserDTO userDTO = new UserDTO();
+			userDTO.setUserId(userId);
+			userDTO.setUserPw(curPw);
+
+			boolean result = userService.login(userDTO);
+			
+			if(result) {
+				userDTO.setUserPw(newPw);
+				userService.changePw(userDTO);
+				map.put("message", "OK");
+			} else {
+				map.put("message","현재 비밀번호가 다릅니다. 다시 입력해 주세요.");
+			}
+		}
+		return map;
+	}
+
+	@PostMapping("/changeNickName")
+	@ResponseBody
+	public Map<String, Object> changeNickName(HttpSession session, String changeNickName) throws Exception {
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		if(session.getAttribute("userId") != null) {
+			boolean result = (userService.nickNameCheck(changeNickName) == 0) ? true : false;
+
+			if(result) {
+				String userId = session.getAttribute("userId").toString();
+				UserDTO userDTO = new UserDTO();
+				userDTO.setUserId(userId);
+				userDTO.setNickName(changeNickName);
+				
+				userService.changeNickName(userDTO);
+				
+				map.put("message", "OK");
+			} else {
+				map.put("message","이미 사용중인 닉네임입니다.");
+			}
+		}
+		return map;
+	}
+	
+	@PostMapping("/deleteUser")
+	@ResponseBody
+	public Map<String, Object> deleteUser(HttpSession session, String userPw) throws Exception {
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+
+		if(session.getAttribute("userId") != null) {
+			String userId = session.getAttribute("userId").toString();
+			UserDTO userDTO = new UserDTO();
+			userDTO.setUserId(userId);
+			userDTO.setUserPw(userPw);
+
+			boolean result = userService.login(userDTO);
+			
+			if(result) {
+				userService.deleteUser(userId);
+				userService.logout(session);
+				map.put("message", "OK");
+			} else {
+				map.put("message","비밀번호를 다시 확인해주세요.");
+			}
+		}
+		return map;
+	}
+	
+	
+	@GetMapping("/board")
+	public ModelAndView board(HttpSession session) throws Exception {
+		ModelAndView mv = new ModelAndView();
+		log.info("유저 작성 게시글 페이지");
+		
+		if(session.getAttribute("userId") != null) {
+			String userId = session.getAttribute("userId").toString();
+			UserDTO userDTO = userService.loginUserInfo(userId);
+			
+			mv.setViewName("user/board");
+			mv.addObject("userDTO", userDTO);
+		} else {
+			mv.setViewName("user/info");
+		}
+		
+		return mv;
 	}
 	
 }

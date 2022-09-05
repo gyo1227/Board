@@ -49,7 +49,6 @@ public class BoardDAOImpl implements BoardDAO{
 
 	@Override
 	public List<BoardDTO> list(PageDTO pageDTO) throws Exception {
-		log.info("list: {}", pageDTO);
 		return sqlsession.selectList(NAMESPACE + ".list", pageDTO);
 	}
 	

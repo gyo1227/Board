@@ -2,6 +2,13 @@
 html, body {
 	height: 100%;
 }
+header {
+	background-color: #fff;
+}
+
+footer {
+	background-color: #fff;
+}
 
 #body {
 	display: flex;
@@ -17,7 +24,6 @@ a {
 a:hover {
 	color: #212529;
 }
-
 
 /* header */
 .header {

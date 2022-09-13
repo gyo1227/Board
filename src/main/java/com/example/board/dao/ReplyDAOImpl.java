@@ -29,10 +29,15 @@ public class ReplyDAOImpl implements ReplyDAO {
 	public List<ReplyDTO> list(int boardNum) {
 		return sqlsession.selectList(NAMESPACE + ".read", boardNum);
 	}
+	
+	@Override
+	public int replyCnt(int boardNum) {
+		return sqlsession.selectOne(NAMESPACE + ".count", boardNum);
+	}
 
 	@Override
-	public int create(ReplyDTO replyDTO) {
-		return sqlsession.insert(NAMESPACE + ".create", replyDTO);
+	public int writeReply(ReplyDTO replyDTO) {
+		return sqlsession.insert(NAMESPACE + ".writeReply", replyDTO);
 	}
 
 	@Override

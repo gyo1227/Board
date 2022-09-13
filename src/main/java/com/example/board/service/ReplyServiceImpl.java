@@ -22,10 +22,15 @@ public class ReplyServiceImpl implements ReplyService {
 	public List<ReplyDTO> list(int boardNum) {
 		return replyDAO.list(boardNum);
 	}
+	
+	@Override
+	public int replyCnt(int boardNum) {
+		return replyDAO.replyCnt(boardNum);
+	}
 
 	@Override
-	public int create(ReplyDTO replyDTO) {
-		return replyDAO.create(replyDTO);
+	public int writeReply(ReplyDTO replyDTO) {
+		return replyDAO.writeReply(replyDTO);
 	}
 
 	@Override

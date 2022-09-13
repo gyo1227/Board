@@ -2,6 +2,8 @@
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
+<% pageContext.setAttribute("replace", "\n"); %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -23,6 +25,7 @@
 $(document).ready(function(){
 	replyList()
 });
+sessionStorage.clear()
 
 function replyList(){
 	var boardNum = ${boardDTO.boardNum}
@@ -34,47 +37,43 @@ function replyList(){
 		type: 'get',
 		data: data,
 		success:function(result){
-			var replyCnt = result.length
-			$('#replyCnt').text(replyCnt)
-			
-			var list = '<ul>';
-			for(var i in result) {
-				list += '<li class="replyOne" id="' + result[i].replyNum + '">';
-				list += '<div class="title">';
-				list += '<span class="nickName">' + result[i].replyNickName + '</span>';
-				list += '<span class="regDate"> (' + result[i].replyRegDate + ')</span>';
-				list += '</div>';
-				list += '<div class="content"><span style="margin-top: 14px;">' + result[i].replyContent + '</span></div>';
-				list += '<div class="rereply" name="' + result[i].replyNum + '" onclick="return rereply(' + result[i].replyNum + ')"><a href="#">답글달기</a></div>';
-				list += '</div>';
-				list += '</li>';
-			}
-			list += '</ul>';
-			$('#reply-list').html(list);
+			var html = jQuery('<div>').html(result);
+			var contents = html.find("div#reply").html();
+			$('#reply').html(contents);
 		}
 	});
 }
 
-function checkContent() {
+function checkReplyContent() {
 	var content = $("#replyContent").val()
 	if(content != '') {
-		$('#submit').attr('disabled', false)
+		$('#replySubmit').removeClass('disabled')
 	} else {
-		$('#submit').attr('disabled', true)
+		$('#replySubmit').addClass('disabled')
+	}
+}
+
+function checkReReplyContent() {
+	var content = $("#rereplyContent").val()
+	if(content != '') {
+		$('#rereplySubmit').removeClass('disabled')
+	} else {
+		$('#rereplySubmit').addClass('disabled')
 	}
 }
 
 function replyWrite(){
 	var boardNum = ${boardDTO.boardNum}
-	var replyContent = $("#replyContent").val()
+	var content = $("#replyContent").val()
 	
-	if(replyContent == '') {
+	if(content == '') {
 		alert('댓글을 입력해주세요.')
 		return false;		
 	}
 	var data = {
-		boardNum: boardNum,
-		replyContent: replyContent
+		'boardNum': boardNum,
+		'content': content,
+		'depth': 0
 	}
 	$.ajax({
 		url: '/reply/write',
@@ -85,17 +84,77 @@ function replyWrite(){
 				alert('댓글이 등록되었습니다.');
 				$("#replyContent").val('');
 				replyList();
-				$('#submit').attr('disabled', true);
+				$('#submit').addClass('disabled');
 				scrollTo(0,document.body.scrollHeight)
 			}
 		}
 	});
 }
 
-function rereply(replyNum){
+function rereplyWrite(){
+	var boardNum = ${boardDTO.boardNum}
+	var replyNum = ((((($('#rereplySubmit').closest('div')).closest('div')).closest('div')).closest('li')).attr('id')) 
+	var content = $("#rereplyContent").val()
 	
-	$('#'+replyNum).append('<div class="reply-form"><div class="reply-input-btn"><div class="reply-input"><textarea id="replyContent" name="replyContent" placeholder="바른 언어를 사용합시다."></textarea></div><div class="reply-btn"><button type="submit" class="btn reply-submit" onclick="return replyWrite()">등록</button></div></div></div>');
+	if(content == '') {
+		alert('댓글을 입력해주세요.')
+		return false;		
+	}
+	var data = {
+		'boardNum': boardNum,
+		'content': content,
+		'depth': 1,
+		'replyGroup': replyNum
+	}
+	$.ajax({
+		url: '/reply/write',
+		type: 'post',
+		data: data,
+		success:function(result){
+			if(result == 1) {
+				alert('댓글이 등록되었습니다.');
+				$("#rereplyContent").val('');
+				replyList();
+				$('#submit').addClass('disabled');
+			}
+		}
+	});
 }
+
+
+$(document).on("click", ".reply-input-btn", function(){
+	var session = sessionStorage.getItem('session')
+	if(session == null) {
+		alert('댓글을 등록하려면 로그인이 필요합니다.')
+		location.href='/user/login'
+		return false;
+	}
+})
+
+$(document).on("click", ".rereply-btn a", function(){
+	var replyNum = ($(this).closest('div')).closest('li').attr('id')
+	console.log(($(this).closest('div')).closest('li').attr('id'))
+	var session = sessionStorage.getItem('session')
+	if(session == null) {
+		alert('댓글을 등록하려면 로그인이 필요합니다.')
+		location.href='/user/login'
+		return false;
+	}
+	if($('#reply'+replyNum).length > 0) {
+		$('div').remove('.rereply-form')
+	} else {
+		$('div').remove('.rereply-form')
+		$('#'+replyNum).append('<div class="reply-form rereply-form" id="reply'+replyNum+'"><i class="bi bi-arrow-90deg-down"></i><div class="reply-input-btn"><div class="reply-input"><textarea id="rereplyContent" name="rereplyContent" placeholder="댓글을 입력해주세요." oninput="checkReReplyContent()"></textarea></div><div class="reply-btn"><button type="submit" class="mybtn reply-submit disabled" id="rereplySubmit" onclick="return rereplyWrite()">등록</button></div></div></div>');
+		$('#rereplyContent').focus();
+	}
+})
+
+
+$(document).on("click", "#replyUpdate", function(){
+	var replyNum = ((($(this).closest('div')).closest('div')).closest('li')).attr('id')
+	$('li#'+replyNum).html('<div class="reply-form rereply-form" id="'+replyNum+'"><div class="reply-input-btn"><div class="reply-input"><textarea id="rereplyContent" name="rereplyContent" placeholder="댓글을 입력해주세요.">'+$("li#"+replyNum+" .content").text()+'</textarea></div><div class="reply-btn"><button type="submit" class="mybtn reply-submit" onclick="return replyWrite()">등록</button></div></div></div>');
+})
+
 	
 function update_(){
 	if(confirm('수정 하시겠습니까?')) {
@@ -135,12 +194,7 @@ function delete_(){
 			</div>
 			<c:if test="${sessionScope.userId == boardDTO.userId }">
 				<div class="view-Opt">
-				<div>
-					<a href="${pageContext.request.contextPath}/board/update/${boardDTO.boardNum}" onclick="return update_()">수정</a>
-				</div>|
-				<div>
-					<a href="${pageContext.request.contextPath}/board/delete/${boardDTO.boardNum}" onclick="return delete_()">삭제</a>
-				</div>
+					<a href="${pageContext.request.contextPath}/board/update/${boardDTO.boardNum}" onclick="return update_()">수정</a>|<a href="${pageContext.request.contextPath}/board/delete/${boardDTO.boardNum}" onclick="return delete_()">삭제</a>
 				</div>
 			</c:if>
 			<div style="margin: 0 25px;">
@@ -150,51 +204,19 @@ function delete_(){
 					</h2>
 				</div>
 				<div class="board-content">
-					<pre><c:out value="${boardDTO.content }"/></pre>
+					${fn:replace(boardDTO.content, replace, "<br/>") }
 				</div>
 			</div>
 		</div>
-	
-		<div class="reply">
-			<div class="pb-2">
-				<i class="bi bi-chat"></i>
-				<span style="font-size: 1.3rem;">댓글</span> (<span id="replyCnt"></span>)
-			</div>
-			<div class="reply-border-top"><!-- <c:out value="${boardDTO.replyCnt }"/> -->
-				<div class="reply-form">
-					<div class="reply-input-btn">
-						<div class="reply-input">
-							<textarea id="replyContent" name="replyContent" placeholder="바른 언어를 사용합시다." oninput="checkContent()"></textarea>
-						</div>
-						<div class="reply-btn">
-							<button type="submit" class="btn reply-submit" id="submit" onclick="return replyWrite()" disabled>등록</button>
-						</div>
-					</div>
-				</div>
-				<div class="reply-list" id="reply-list">
-					<ul>
-						<li id="${replyNum }">
-							<div>
-								<div class="title">
-									<span class="nickName">${replyNickName }</span>
-									<span class="regDate">${replyRegDate }</span>
-								</div>
-								<div class="content">${replyContent }</div>			
-							</div>
-						</li>
-					</ul>
-				</div>
-				
-			</div>
+		<div id="reply">
+		
 		</div>
 		
+		 
 	</div>
-	<c:if test="${sessionScope.userId == null }">
+	<c:if test="${sessionScope.userId != null }">
 		<script>
-			$('.reply-input-btn').click(function() {
-				alert('댓글을 등록하려면 로그인이 필요합니다.')
-				location.href='/user/login'
-			});
+			sessionStorage.setItem('session', '${sessionScope.nickName }')
 		</script>
 	</c:if>
 <%@include file="../includes/footer.jsp"%>

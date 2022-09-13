@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.example.board.dto.ReplyDTO;
 import com.example.board.service.ReplyService;
@@ -21,7 +22,7 @@ import com.example.board.service.ReplyService;
 @RequestMapping("/reply")
 public class ReplyController {
 
-//	private static final Logger log = LoggerFactory.getLogger(ReplyController.class);
+	private static final Logger log = LoggerFactory.getLogger(ReplyController.class);
 	
 	@Autowired
 	private ReplyService replyService;
@@ -33,22 +34,28 @@ public class ReplyController {
 	@PostMapping("/write")
 	@ResponseBody
 	public int write(ReplyDTO replyDTO, HttpSession session) {
-		replyDTO.setReplyUserId(session.getAttribute("userId").toString());
-		int result = replyService.create(replyDTO);
+		log.info("댓글 작성");
+		
+		replyDTO.setUserId(session.getAttribute("userId").toString());
+		int result = replyService.writeReply(replyDTO);
+
 		return result;
 	}
-	
+
 	@GetMapping("/replyList/{boardNum}")
 	@ResponseBody
-	public List<ReplyDTO> replyList(@PathVariable int boardNum) {
+	public ModelAndView replyList(@PathVariable int boardNum) {
+		log.info("댓글 목록");
+		
+		ModelAndView mv = new ModelAndView();
 		List<ReplyDTO> list = replyService.list(boardNum);
-		return list;
+		int replyCnt = replyService.replyCnt(boardNum);
+		
+		mv.addObject("replyCnt", replyCnt);
+		mv.addObject("list", list);
+		mv.setViewName("ajax/replyAjax");
+		
+		return mv;
 	}
-	
-	
-	
-	
-	
-
 	
 }

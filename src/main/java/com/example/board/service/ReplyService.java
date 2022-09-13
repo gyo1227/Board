@@ -9,9 +9,12 @@ public interface ReplyService {
 	// 댓글 목록
 	public List<ReplyDTO> list(int boardNum);
 	
+	// 댓글 갯수
+	public int replyCnt(int boardNum);
+	
 	// 댓글 쓰기
-	public int create(ReplyDTO replyDTO);
-
+	public int writeReply(ReplyDTO replyDTO);
+	
 	// 댓글 수정
 	public void update(ReplyDTO replyDTO);
 	

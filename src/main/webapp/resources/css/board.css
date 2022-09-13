@@ -33,6 +33,16 @@
 	text-align: center;
 }
 
+/* .mybtn {
+	padding: 6px 12px;
+	border: 1px solid #d1d1d1;
+	border-radius: 5px;
+}
+
+.mybtn:hover {
+	background-color: #e4e4e4;
+} */
+
 /* search-bar */
 .select-list {
 	display: flex;
@@ -65,14 +75,40 @@
 	margin: 20px 0;
 }
 
-/* .page-link {
-	color: #212529;
+.page {
+	display: flex;
+	padding-left: 0;
+	list-style: none;
 }
-.page-link:hover {
-	color: #212529;
-} */
+
+.page li {
+	margin: 0px 3px;
+}
+
+.paging {
+	padding: 6px 12px;
+	display: block;
+}
 
 
+.paging:focus {
+    box-shadow: none;
+}
+
+.paging.disabled {
+	opacity: .5;
+	pointer-events: none
+}
+
+.paging.active {
+	padding: 5px 12px;
+	border: 1px solid #BCBABA;
+	border-radius: 5px
+}
+
+.page-link.active {
+	background-color: none;
+}
 
 /* view */
 .board-info {
@@ -89,8 +125,7 @@
 
 .view-Opt {
 	height: 24px;
-	display: flex;
-	justify-content: flex-end;
+	float: right;
 }
 
 .view-Opt a {
@@ -98,6 +133,9 @@
 }
 
 /* reply */
+.reply-Opt {
+    font-size: 14px;
+}
 
 .reply-border-top {
 	border-top: 1px solid #ccc;
@@ -114,6 +152,7 @@
 	display: flex;
 	align-items: flex-end;
 	line-height: 1;
+	padding-left: 10px;
 }
 
 .reply-input {
@@ -129,6 +168,10 @@
 .reply-btn {
 	margin-left: 9px;
 	height: 72px;
+	padding: 0;
+	border: none;
+	border-radius: 5px;
+	background: #fff;
 }
 
 .reply-submit {
@@ -156,11 +199,39 @@
 	font-size: 12px;
 }
 
+.rereply-arrow {
+	padding: 10px;
+}
+
 .rereply {
+	padding-left: 40px;
+    background: #F8F8F8;
+}
+
+.rereply-btn {
 	font-size:12px;
 	display:flex;
 	justify-content: flex-end;
 }
+
+.rereply-btn a {
+	cursor: pointer;
+}
+
+.replyOne .rereply-form {
+	margin: 0;
+}
+
+.replyOne .replyOpt {
+	cursor: pointer;
+    float: right;
+}
+
+.bi-arrow-90deg-down {
+	float: left;
+	transform: rotate(270deg);
+}
+
 
 /* update */
 .btn-right {

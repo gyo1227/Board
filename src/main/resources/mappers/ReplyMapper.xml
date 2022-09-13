@@ -6,30 +6,52 @@
 
 <mapper namespace="com.example.board.mappers.ReplyMapper">
 	
-	<!-- 댓글 목록  -->
-	<insert id="create">
+	<!-- 댓글 쓰기  -->
+	<insert id="writeReply">
 		INSERT INTO reply (
-			replyContent,
-			replyUserId,
-			boardNum
-		) values (
-			#{replyContent}, #{replyUserId}, ${boardNum}
-		)
+			content,
+			userId,
+			boardNum,
+			depth,
+			replyGroup
+		) VALUES (
+		<choose>
+			<when test="depth == 0">
+				#{content}, #{userId}, ${boardNum}, ${depth}, (SELECT ifnull(max(replyNum) + 1, 1) FROM reply AS sub)
+			</when>
+			<when test="depth == 1">
+				#{content}, #{userId}, ${boardNum}, ${depth}, #{replyGroup} 
+			</when>
+		</choose>
+		);
+		
 	</insert>
 
 	<select id="read" resultType="com.example.board.dto.ReplyDTO">
 		SELECT
-			r.replyContent,
-			u.nickName as replyNickName,
-			r.replyRegDate,
-			r.replyNum
+			r.replyNum,
+			r.userId,
+			r.content,
+			u.nickName,
+			r.regDate,
+			r.depth,
+			r.replyGroup
 		FROM
 			reply r, users u
 		WHERE 
-			r.replyUserId = u.userId and r.boardNum = ${boardNum}
+			r.userId = u.userId AND r.boardNum = ${boardNum}
 		ORDER BY
-			r.replyRegDate asc
-	</select>		
+			r.replyGroup ASC, r.regDate ASC;
+	</select>
+	
+	<select id="count" resultType="int">
+		SELECT
+			count(*)
+		FROM
+			reply r, users u
+		WHERE 
+			r.userId = u.userId and r.boardNum = ${boardNum}
+	</select>	
 	<!-- 
 	public List<ReplyDTO> list(int boardNum);
 	

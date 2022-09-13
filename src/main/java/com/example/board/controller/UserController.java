@@ -1,6 +1,8 @@
 package com.example.board.controller;
 
+import java.time.LocalDate;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
@@ -16,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.example.board.dto.BoardDTO;
+import com.example.board.dto.PageDTO;
 import com.example.board.dto.UserDTO;
 import com.example.board.service.UserService;
 
@@ -212,17 +216,49 @@ public class UserController {
 	}
 	
 	
-	@GetMapping("/board")
-	public ModelAndView board(HttpSession session) throws Exception {
+	@GetMapping("/boardList")
+	public ModelAndView boardList(@RequestParam(value="p", defaultValue="1") int curPage, HttpSession session) throws Exception {
 		ModelAndView mv = new ModelAndView();
 		log.info("유저 작성 게시글 페이지");
 		
 		if(session.getAttribute("userId") != null) {
 			String userId = session.getAttribute("userId").toString();
-			UserDTO userDTO = userService.loginUserInfo(userId);
+
+			int total = userService.total(userId);
+			PageDTO pageDTO = new PageDTO(userId, total, curPage);
+			List<BoardDTO> list = userService.list(new PageDTO(userId, total, curPage));
+			LocalDate today = LocalDate.now();
 			
-			mv.setViewName("user/board");
-			mv.addObject("userDTO", userDTO);
+			mv.setViewName("user/boardList");
+			mv.addObject("pageDTO", pageDTO);
+			mv.addObject("list", list);
+			mv.addObject("today", today);
+		} else {
+			mv.setViewName("user/info");
+		}
+		
+		return mv;
+	}
+
+	@GetMapping("/replyList")
+	public ModelAndView replyList(@RequestParam(value="p", defaultValue="1") int curPage, HttpSession session) throws Exception {
+		ModelAndView mv = new ModelAndView();
+		log.info("유저 작성 댓글 페이지");
+		
+		if(session.getAttribute("userId") != null) {
+			String userId = session.getAttribute("userId").toString();
+			
+			int total = userService.total(userId);
+			PageDTO pageDTO = new PageDTO(userId, total, curPage);
+			List<BoardDTO> list = userService.list(new PageDTO(userId, total, curPage));
+			LocalDate today = LocalDate.now();
+			
+			log.info("pageDTO: {}", pageDTO);
+			
+			mv.setViewName("user/replyList");
+			mv.addObject("pageDTO", pageDTO);
+			mv.addObject("list", list);
+			mv.addObject("today", today);
 		} else {
 			mv.setViewName("user/info");
 		}

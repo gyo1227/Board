@@ -84,4 +84,36 @@
 	WHERE
 		userId = #{userId}
 	</delete>
+	
+	<select id="total" resultType="int">
+		SELECT
+			count(*)
+		FROM
+			board
+		WHERE
+			userId = #{userId}
+	</select>
+	
+	<select id="list" resultType="com.example.board.dto.BoardDTO">
+		SELECT
+			boardNum,
+			title,
+			regDate,
+			viewCnt,
+			(
+				SELECT 
+					count(*) 
+				FROM 
+					reply r 
+				WHERE 
+					r.boardNum = b.boardNum
+			) as replyCnt
+		FROM
+			board b
+		WHERE
+			userId = #{userId}
+		ORDER BY
+			boardNum desc
+		LIMIT #{firstBoardNum}, #{amount}
+	</select>
 </mapper>

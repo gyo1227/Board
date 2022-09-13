@@ -1,5 +1,7 @@
 package com.example.board.dao;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 import org.apache.ibatis.session.SqlSession;
@@ -7,12 +9,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
+import com.example.board.dto.BoardDTO;
+import com.example.board.dto.PageDTO;
 import com.example.board.dto.UserDTO;
 
 @Repository
 public class UserDAOImpl implements UserDAO {
 
-	private static final Logger log = LoggerFactory.getLogger(UserDAOImpl.class);
+//	private static final Logger log = LoggerFactory.getLogger(UserDAOImpl.class);
 	
 	@Inject
 	private SqlSession sqlsession;
@@ -66,5 +70,14 @@ public class UserDAOImpl implements UserDAO {
 	public void deleteUser(String userId) throws Exception {
 		sqlsession.delete(NAMESPACE + ".deleteUser", userId);
 	}
+	
+	@Override
+	public int total(String userId) throws Exception {
+		return sqlsession.selectOne(NAMESPACE + ".total", userId);
+	}
 
+	@Override
+	public List<BoardDTO> list(PageDTO pageDTO) throws Exception {
+		return sqlsession.selectList(NAMESPACE + ".list", pageDTO);
+	}
 }

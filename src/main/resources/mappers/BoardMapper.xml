@@ -46,7 +46,7 @@
 		ORDER BY
 			boardNum desc,
 			regDate desc
-		limit #{firstBoardNum}, #{amount}
+		LIMIT #{firstBoardNum}, #{amount}
 	</select>
 	
 	<!-- 게시글 작성 -->
@@ -111,7 +111,7 @@
 	<select id="total" resultType="int">
 		SELECT 
 			count(*) 
-		from 
+		FROM
 			board
 		<if test="option != ''">
 			<trim prefix="WHERE">

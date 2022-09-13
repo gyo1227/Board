@@ -5,6 +5,10 @@ small {
 	color: #999;
 }
 
+.bi-person-fill {
+	color: #C0C4CA; 
+}
+
 .form {
 	/* background-color: #f7f7f7; */
 }
@@ -121,12 +125,9 @@ small {
 	display: none;
 }
 
-.mybtn {
-    font-size: 14px;
-    border: 1px solid #d1d1d1;
-    color: #666;
-    padding: 4px 10px;
-    border-radius: 5px;
+.mybtn-sm {
+	font-size: 14px;
+	padding: 4px 10px
 }
 
 .input-group {

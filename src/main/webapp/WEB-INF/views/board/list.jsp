@@ -56,7 +56,17 @@
 									<td class="text-center"><c:out value="${list.nickName}"/></td>	
 				 					<td class="text-center">
 										<fmt:parseDate value="${list.regDate }" pattern="yyyy-MM-dd'T'HH:mm" var="parsedDateTime" type="both"/>
-				 						<fmt:formatDate value="${parsedDateTime }" pattern="MM-dd" />
+ 										<c:set var="ymddate"><fmt:formatDate value="${parsedDateTime }" pattern="yyyy-MM-dd" /></c:set>
+ 										<c:set var="mddate"><fmt:formatDate value="${parsedDateTime }" pattern="MM-dd" /></c:set>
+ 										<c:set var="time"><fmt:formatDate value="${parsedDateTime }" pattern="HH:mm" /></c:set>
+ 										<c:choose>
+ 											<c:when test="${ymddate == today }">
+		 										<c:out value="${time }"></c:out>
+ 											</c:when>
+ 											<c:otherwise>
+		 										<c:out value="${mddate }"></c:out>
+ 											</c:otherwise>
+ 										</c:choose>
 			 						</td>		
 									<td class="text-center"><c:out value="${list.viewCnt}"/></td>		
 								</tr>
@@ -72,7 +82,7 @@
 	</div>
 	<div class="container board-bottom">
 		<div class="left">
-			<a href="${pageContext.request.contextPath}/board/write" class="btn btn-dark">글쓰기</a>
+			<a href="${pageContext.request.contextPath}/board/write" class="mybtn">글쓰기</a>
 		</div>
 		
 		<form action="${pageContext.request.contextPath}/board/list" method="get" class="search">
@@ -98,17 +108,17 @@
 		</c:if>
 		<nav id="pagination" aria-label="Page navigation example">
 			<c:if test="${total != 0}">
-				<ul class="pagination justify-content-center">
-					<li class="page-item ${pageDTO.prev == false ? 'disabled': '' }">
-						<a class="page-link" href="list?p=${pageDTO.startPage-10 }${pageDTO.option != '' ? '&option=' : ''}${pageDTO.option != '' ? pageDTO.option : ''}${pageDTO.query != '' ? '&query=' : ''}${pageDTO.query != '' ? pageDTO.query : ''}" aria-label="Previous">
+				<ul class="page justify-content-center">
+					<li>
+						<a class="paging ${pageDTO.prev == false ? 'disabled': '' }" href="list?p=${pageDTO.startPage-10 }${pageDTO.option != '' ? '&option=' : ''}${pageDTO.option != '' ? pageDTO.option : ''}${pageDTO.query != '' ? '&query=' : ''}${pageDTO.query != '' ? pageDTO.query : ''}" aria-label="Previous">
 							<span aria-hidden="true">&laquo;</span>
 						</a>
 					</li>
 					<c:forEach var="num" begin="${pageDTO.startPage }" end="${pageDTO.endPage }">
-						<li class="page-item"><a class="page-link ${pageDTO.curPage == num ? 'active': '' }" href="list?p=${num }${pageDTO.option != '' ? '&option=' : ''}${pageDTO.option != '' ? pageDTO.option : ''}${pageDTO.query != '' ? '&query=' : ''}${pageDTO.query != '' ? pageDTO.query : ''}">${num }</a></li>
+						<li><a class="paging ${pageDTO.curPage == num ? 'active': '' }" href="list?p=${num }${pageDTO.option != '' ? '&option=' : ''}${pageDTO.option != '' ? pageDTO.option : ''}${pageDTO.query != '' ? '&query=' : ''}${pageDTO.query != '' ? pageDTO.query : ''}">${num }</a></li>
 					</c:forEach>
-					<li class="page-item ${pageDTO.next == false ? 'disabled': '' }">
-						<a class="page-link" href="list?p=${pageDTO.startPage +10 }${pageDTO.option != '' ? '&option=' : ''}${pageDTO.option != '' ? pageDTO.option : ''}${pageDTO.query != '' ? '&query=' : ''}${pageDTO.query != '' ? pageDTO.query : ''}" aria-label="Next">
+					<li>
+						<a class="paging ${pageDTO.next == false ? 'disabled': '' }" href="list?p=${pageDTO.startPage +10 }${pageDTO.option != '' ? '&option=' : ''}${pageDTO.option != '' ? pageDTO.option : ''}${pageDTO.query != '' ? '&query=' : ''}${pageDTO.query != '' ? pageDTO.query : ''}" aria-label="Next">
 							<span aria-hidden="true">&raquo;</span>
 						</a>
 					</li>

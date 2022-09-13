@@ -137,7 +137,7 @@ function deleteUser() {
 			}
 		},
 		error:function(){
-			console.log("에러입니다");
+			console.log('에러입니다.');
 		}
 	})
 }
@@ -173,7 +173,8 @@ function cancel(off, on){
 						<nav class="side-nav">
 							<ul class="nav-list">
 								<li><a class="active" href="${pageContext.request.contextPath}/user/info">회원 정보<i class="bi bi-chevron-compact-right"></i></a></li>
-								<li><a href="${pageContext.request.contextPath}/user/board">작성 게시글<i class="bi bi-chevron-compact-right"></i></a></li>
+								<li><a href="${pageContext.request.contextPath}/user/boardList">작성 게시글<i class="bi bi-chevron-compact-right"></i></a></li>
+								<li><a href="${pageContext.request.contextPath}/user/replyList">작성 댓글<i class="bi bi-chevron-compact-right"></i></a></li>
 							</ul>
 						</nav>
 					</div>
@@ -200,7 +201,7 @@ function cancel(off, on){
 									<td class="user-info-td">
 										<strong>●●●●●●●●●●</strong>
 										<a href="#" class="" style="margin-left: 10px;" onclick="changeMode($('#password_modify_off'), $('#password_modify_on'))">
-											<span class="mybtn">변경</span>
+											<span class="mybtn mybtn-sm">변경</span>
 										</a>
 									</td>
 								</tr>
@@ -223,10 +224,10 @@ function cancel(off, on){
 										</div>
 										<nav>
 											<a href="#" id="chagnePw" onclick="changePw()">
-												<span class="mybtn">변경</span>
+												<span class="mybtn mybtn-sm">변경</span>
 											</a>
 											<a href="#" onclick="cancel($('#password_modify_off'), $('#password_modify_on'))">
-												<span class="mybtn">취소</span>
+												<span class="mybtn mybtn-sm">취소</span>
 											</a>
 										</nav>
 									</td>
@@ -238,7 +239,7 @@ function cancel(off, on){
 									<td class="user-info-td">
 										<span>${userDTO.nickName }</span>
 										<a href="#" style="margin-left: 10px;" onclick="changeMode($('#nickName_modify_off'), $('#nickName_modify_on'))">
-											<span class="mybtn">변경</span>
+											<span class="mybtn mybtn-sm">변경</span>
 										</a>
 									</td>
 								</tr>
@@ -254,10 +255,10 @@ function cancel(off, on){
 										</div>
 										<nav>
 											<a href="#" id="changeNick" onclick="changeNick()">
-												<span class="mybtn">변경</span>
+												<span class="mybtn mybtn-sm">변경</span>
 											</a>
 											<a href="#" class="" onclick="cancel($('#nickName_modify_off'), $('#nickName_modify_on'))">
-												<span class="mybtn">취소</span>
+												<span class="mybtn mybtn-sm">취소</span>
 											</a>
 										</nav>
 									</td>
@@ -268,7 +269,7 @@ function cancel(off, on){
 									<th class="user-info-th">탈퇴신청</th>
 									<td class="user-info-td">
 										<a href="#" onclick="changeMode($('#delete_user_off'), $('#delete_user_on'))">
-											<span class="mybtn">탈퇴</span>
+											<span class="mybtn mybtn-sm">탈퇴</span>
 										</a>
 									</td>
 								</tr>
@@ -283,10 +284,10 @@ function cancel(off, on){
 										</div>
 										<nav>
 											<a href="#" id="" onclick="deleteUser()">
-												<span class="mybtn">탈퇴</span>
+												<span class="mybtn mybtn-sm">탈퇴</span>
 											</a>
 											<a href="#" class="" onclick="cancel($('#delete_user_off'), $('#delete_user_on'))">
-												<span class="mybtn">취소</span>
+												<span class="mybtn mybtn-sm">취소</span>
 											</a>
 										</nav>
 									</td>
@@ -315,7 +316,6 @@ function cancel(off, on){
 		</c:otherwise>
 	</c:choose>
 
-<%@include file="../includes/footer.jsp"%>
 </div>
 </body>
 </html>

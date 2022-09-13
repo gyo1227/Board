@@ -1,5 +1,9 @@
 package com.example.board.dao;
 
+import java.util.List;
+
+import com.example.board.dto.BoardDTO;
+import com.example.board.dto.PageDTO;
 import com.example.board.dto.UserDTO;
 
 public interface UserDAO {
@@ -27,4 +31,10 @@ public interface UserDAO {
 	
 	// 회원 탈퇴
 	public void deleteUser(String userId) throws Exception;
+	
+	// 작성한 게시글 수
+	public int total(String userId) throws Exception;
+	
+	// 작성한 게시글 조회
+	public List<BoardDTO> list(PageDTO pageDTO) throws Exception;
 }

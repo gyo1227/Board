@@ -1,5 +1,7 @@
 package com.example.board.service;
 
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
@@ -8,12 +10,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.board.dao.UserDAO;
+import com.example.board.dto.BoardDTO;
+import com.example.board.dto.PageDTO;
 import com.example.board.dto.UserDTO;
 
 @Service
 public class UserServiceImpl implements UserService {
 
-	private static final Logger log = LoggerFactory.getLogger(UserServiceImpl.class);
+//	private static final Logger log = LoggerFactory.getLogger(UserServiceImpl.class);
 	
 	@Autowired
 	private UserDAO userDAO;
@@ -67,4 +71,13 @@ public class UserServiceImpl implements UserService {
 		userDAO.deleteUser(userId);
 	}
 
+	@Override
+	public int total(String userId) throws Exception {
+		return userDAO.total(userId);
+	}
+	
+	@Override
+	public List<BoardDTO> list(PageDTO pageDTO) throws Exception {
+		return userDAO.list(pageDTO);
+	}
 }

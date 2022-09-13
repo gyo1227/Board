@@ -18,7 +18,7 @@ import com.example.board.dto.PageDTO;
 @Service
 public class BoardServiceImpl implements BoardService {
 
-	private static final Logger log = LoggerFactory.getLogger(BoardServiceImpl.class);
+//	private static final Logger log = LoggerFactory.getLogger(BoardServiceImpl.class);
 	
 	@Autowired
 	private BoardDAO boardDAO;
@@ -44,7 +44,7 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
-	public void delete(HttpSession session, int boardNum) throws Exception {
+	public void delete(int boardNum) throws Exception {
 		boardDAO.delete(boardNum);
 	}
 

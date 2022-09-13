@@ -63,8 +63,12 @@ function login(){
 								$('#check').addClass('no')
 							</script>
 						</c:if>					
-					<button type="submit" id="login-btn" class="w-100 btn btn-lg btn-primary form-floating mb-2" onclick="return login()">로그인</button>
-					<button type="button" class="w-100 btn btn-lg btn-primary form-floating mb-2" onclick="location.href='${pageContext.request.contextPath}/user/join'">회원가입</button>
+					<button type="submit" id="login-btn" class="mybtn mb-2 w-100" onclick="return login()">로그인</button>
+					<div class="left">
+						<a href="${pageContext.request.contextPath}/user/join">
+							<i class="bi bi-person-fill"></i>회원가입
+						</a>
+					</div>
 				</form>
 			</div>
 		</c:when>

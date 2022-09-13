@@ -1,5 +1,6 @@
 package com.example.board.controller;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -9,13 +10,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.example.board.dto.BoardDTO;
@@ -42,14 +42,14 @@ public class BoardController {
 		int total = boardService.total(new PageDTO(option, query));
 		PageDTO pageDTO = new PageDTO(total, curPage, option, query);
 		List<BoardDTO> list = boardService.list(pageDTO);
-
+		LocalDate today = LocalDate.now();
 		
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("board/list");
 		mv.addObject("total", total);
 		mv.addObject("pageDTO", pageDTO);
 		mv.addObject("list", list);
-		
+		mv.addObject("today", today);
 		if(curPage > pageDTO.getEndPage()) {
 			mv.addObject("total", 0);
 			mv.addObject("list", null);
@@ -71,7 +71,9 @@ public class BoardController {
 	
 	@PostMapping("/write")
 	public String write(BoardDTO boardDTO, HttpSession session) throws Exception {
-
+		
+		log.info("getContent: {}",boardDTO.getContent());
+		
 		boardDTO.setUserId(session.getAttribute("userId").toString());
 		boardService.create(boardDTO);
 		
@@ -86,6 +88,7 @@ public class BoardController {
 		
 		ModelAndView mv = new ModelAndView();
 		log.info("게시판 상세보기 페이지");
+		log.info("contnet: {}", boardDTO.getContent());
 		
 		mv.setViewName("board/view");
 		mv.addObject("boardDTO", boardDTO);
@@ -125,11 +128,20 @@ public class BoardController {
 	}
 	
 	@GetMapping("/delete/{boardNum}")
-	public String delete(@PathVariable("boardNum") int boardNum, HttpSession session) throws Exception {
+	public String delete(@PathVariable("boardNum") int boardNum) throws Exception {
 		
-		boardService.delete(session, boardNum);
+		boardService.delete(boardNum);
 		log.info("게시판 삭제 처리");
 		
 		return "redirect:/board/list";
+	}
+	
+	@PostMapping("/chkDelete")
+	@ResponseBody
+	public void chkDelete(@RequestParam (required = false, value = "chkArr[]") List<String> chkArr) throws Exception {
+		log.info("게시판 선택 삭제 처리");
+		for(int i = 0; i < chkArr.size(); i++) {
+			boardService.delete(Integer.parseInt(chkArr.get(i)));
+		}
 	}
 }

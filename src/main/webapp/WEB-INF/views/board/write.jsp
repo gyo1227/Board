@@ -32,7 +32,7 @@
 						<label for="content">게시글 작성</label>
 					</div>
 					<div class="left">
-						<button type="submit" class="btn btn-md btn-primary form-floating mb-2">글 작성</button>
+						<button type="submit" class="mybtn btn-primary form-floating mb-2">글 작성</button>
 					</div>	
 				</form>
 			</div>

@@ -1,7 +1,11 @@
 package com.example.board.service;
 
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 
+import com.example.board.dto.BoardDTO;
+import com.example.board.dto.PageDTO;
 import com.example.board.dto.UserDTO;
 
 public interface UserService {
@@ -32,4 +36,10 @@ public interface UserService {
 	
 	// 회원 탈퇴
 	public void deleteUser(String userId) throws Exception;
+	
+	// 작성한 게시글 수
+	public int total(String userId) throws Exception;
+	
+	// 작성한 게시글 조회
+	public List<BoardDTO> list(PageDTO pageDTO) throws Exception;
 }

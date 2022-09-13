@@ -4,7 +4,6 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,7 +15,7 @@ import com.example.board.dto.PageDTO;
 @Repository
 public class BoardDAOImpl implements BoardDAO{
 
-	private static final Logger log = LoggerFactory.getLogger(BoardDAOImpl.class);
+//	private static final Logger log = LoggerFactory.getLogger(BoardDAOImpl.class);
 	
 	@Inject
 	private SqlSession sqlsession;

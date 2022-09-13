@@ -19,7 +19,7 @@ public interface BoardService {
 	public void update(HttpSession session, BoardDTO boardDTO) throws Exception;
 	
 	// 게시글 삭제
-	public void delete(HttpSession session, int boardNum) throws Exception;
+	public void delete(int boardNum) throws Exception;
 	
 	// 게시글 전체 조회
 	public List<BoardDTO> list(PageDTO pageDTO) throws Exception;

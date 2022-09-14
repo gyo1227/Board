@@ -35,13 +35,14 @@
 			u.nickName,
 			r.regDate,
 			r.depth,
-			r.replyGroup
+			r.replyGroup,
+			r.deleteChk
 		FROM
 			reply r, users u
 		WHERE 
 			r.userId = u.userId AND r.boardNum = ${boardNum}
 		ORDER BY
-			r.replyGroup ASC, r.regDate ASC;
+			r.replyGroup ASC, r.regDate ASC
 	</select>
 	
 	<select id="count" resultType="int">
@@ -50,8 +51,35 @@
 		FROM
 			reply r, users u
 		WHERE 
-			r.userId = u.userId and r.boardNum = ${boardNum}
+			r.userId = u.userId AND r.boardNum = ${boardNum} AND r.deleteChk = 0
 	</select>	
+	
+	<update id="updateReply">
+		UPDATE 
+			reply
+		SET
+			content = '${content}'
+		WHERE
+			replyNum = ${replyNum}
+	</update>
+	
+	<update id="deleteUpdate">
+		UPDATE
+			reply
+		SET
+			deleteChk = 1
+		WHERE
+			replyNum = ${replyNum}
+	</update>
+	
+	<delete id="deleteReply">
+		DELETE
+		FROM 
+			reply
+		WHERE
+			replyNum = ${replyNum}
+	</delete>
+	
 	<!-- 
 	public List<ReplyDTO> list(int boardNum);
 	

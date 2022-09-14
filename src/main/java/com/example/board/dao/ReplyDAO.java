@@ -16,9 +16,12 @@ public interface ReplyDAO {
 	public int writeReply(ReplyDTO replyDTO);
 	
 	// 댓글 수정
-	public void update(ReplyDTO replyDTO);
+	public int updateReply(ReplyDTO replyDTO);
 	
+	// 댓글 삭제(논리 삭제)
+	public int deleteUpdate(int replyNum);
+
 	// 댓글 삭제
-	public void delete(int replyNum);
+	public int deleteReply(int replyNum);
 	
 }

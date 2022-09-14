@@ -41,14 +41,20 @@ public class ReplyDAOImpl implements ReplyDAO {
 	}
 
 	@Override
-	public void update(ReplyDTO replyDTO) {
-		// TODO Auto-generated method stub
+	public int updateReply(ReplyDTO replyDTO) {
+		return sqlsession.update(NAMESPACE + ".updateReply", replyDTO);
 		
 	}
 
 	@Override
-	public void delete(int replyNum) {
-		// TODO Auto-generated method stub
+	public int deleteUpdate(int replyNum) {
+		return sqlsession.update(NAMESPACE + ".deleteUpdate", replyNum);
+		
+	}
+
+	@Override
+	public int deleteReply(int replyNum) {
+		return sqlsession.delete(NAMESPACE + ".deleteReply", replyNum);
 		
 	}
 

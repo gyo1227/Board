@@ -58,4 +58,32 @@ public class ReplyController {
 		return mv;
 	}
 	
+	@PostMapping("/update")
+	@ResponseBody
+	public int update(ReplyDTO replyDTO, HttpSession session) {
+		log.info("댓글 작성");
+		
+		replyDTO.setUserId(session.getAttribute("userId").toString());
+		log.info("{}",replyDTO);
+		int result = replyService.updateReply(replyDTO);
+		
+		return result;
+	}
+
+	@PostMapping("/delete")
+	@ResponseBody
+	public int delete(ReplyDTO replyDTO, HttpSession session) {
+		log.info("댓글 작성");
+		
+		replyDTO.setUserId(session.getAttribute("userId").toString());
+		log.info("{}",replyDTO);
+		
+		if(replyDTO.getDepth() == 0) {
+			return replyService.deleteUpdate(replyDTO.getReplyNum());
+		}
+		
+		return replyService.deleteReply(replyDTO.getReplyNum());
+	}
+	
+	
 }

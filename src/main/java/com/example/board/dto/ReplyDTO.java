@@ -25,6 +25,7 @@ public class ReplyDTO {
 	private LocalDateTime regDate;		// 댓글 작성일
 	private int depth;					// 댓글, 대댓글 구분
 	private int replyGroup;				// 부모 댓글 번호
+	private int deleteChk;				// 논리 삭제 여부
 	private int boardNum;				// 작성된 댓글의 게시글 번호
 	
 	public ReplyDTO() {
@@ -32,7 +33,7 @@ public class ReplyDTO {
 	}
 
 	public ReplyDTO(int replyNum, String userId, String content, String nickName, LocalDateTime regDate, int depth,
-			int replyGroup, int boardNum) {
+			int replyGroup, int deleteChk, int boardNum) {
 		super();
 		this.replyNum = replyNum;
 		this.userId = userId;
@@ -41,6 +42,7 @@ public class ReplyDTO {
 		this.regDate = regDate;
 		this.depth = depth;
 		this.replyGroup = replyGroup;
+		this.deleteChk = deleteChk;
 		this.boardNum = boardNum;
 	}
 
@@ -52,16 +54,16 @@ public class ReplyDTO {
 		this.replyNum = replyNum;
 	}
 
-	public String getContent() {
-		return content;
-	}
-
 	public String getUserId() {
 		return userId;
 	}
-	
+
 	public void setUserId(String userId) {
 		this.userId = userId;
+	}
+
+	public String getContent() {
+		return content;
 	}
 
 	public void setContent(String content) {
@@ -100,6 +102,14 @@ public class ReplyDTO {
 		this.replyGroup = replyGroup;
 	}
 
+	public int getDeleteChk() {
+		return deleteChk;
+	}
+
+	public void setDeleteChk(int deleteChk) {
+		this.deleteChk = deleteChk;
+	}
+
 	public int getBoardNum() {
 		return boardNum;
 	}
@@ -111,8 +121,10 @@ public class ReplyDTO {
 	@Override
 	public String toString() {
 		return "ReplyDTO [replyNum=" + replyNum + ", userId=" + userId + ", content=" + content + ", nickName="
-				+ nickName + ", regDate=" + regDate + ", depth=" + depth + ", replyGroup=" + replyGroup + ", boardNum="
-				+ boardNum + "]";
+				+ nickName + ", regDate=" + regDate + ", depth=" + depth + ", replyGroup=" + replyGroup + ", deleteChk="
+				+ deleteChk + ", boardNum=" + boardNum + "]";
 	}
+
+	
 
 }

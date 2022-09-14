@@ -34,13 +34,18 @@ public class ReplyServiceImpl implements ReplyService {
 	}
 
 	@Override
-	public void update(ReplyDTO replyDTO) {
-		replyDAO.update(replyDTO);
+	public int updateReply(ReplyDTO replyDTO) {
+		return replyDAO.updateReply(replyDTO);
 	}
 
 	@Override
-	public void delete(int replyNum) {
-		replyDAO.delete(replyNum);
+	public int deleteUpdate(int replyNum) {
+		return replyDAO.deleteUpdate(replyNum);
+	}
+
+	@Override
+	public int deleteReply(int replyNum) {
+		return replyDAO.deleteReply(replyNum);
 	}
 
 }

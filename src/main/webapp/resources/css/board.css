@@ -150,7 +150,6 @@
 
 .reply-input-btn {
 	display: flex;
-	align-items: flex-end;
 	line-height: 1;
 	padding-left: 10px;
 }
@@ -166,12 +165,17 @@
 }
 
 .reply-btn {
+	width: 68px;
 	margin-left: 9px;
 	height: 72px;
 	padding: 0;
 	border: none;
 	border-radius: 5px;
 	background: #fff;
+}
+
+.reply-btn.replyUpdate {
+	height: 36px;
 }
 
 .reply-submit {
@@ -200,11 +204,15 @@
 }
 
 .rereply-arrow {
-	padding: 10px;
+	padding: 4px;
 }
 
 .rereply {
-	padding-left: 40px;
+	/* padding-left: 40px; */
+    background: #F8F8F8;
+}
+
+.updateReply {
     background: #F8F8F8;
 }
 
@@ -230,6 +238,10 @@
 .bi-arrow-90deg-down {
 	float: left;
 	transform: rotate(270deg);
+}
+
+.delReply {
+	padding: 15px 10px;
 }
 
 

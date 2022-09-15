@@ -18,11 +18,10 @@
 			<div class="reply-form">
 				<div class="reply-input-btn">
 					<div class="reply-input">
-						<textarea id="replyContent" name="replyContent" placeholder="댓글을 입력해주세요." oninput="checkContent()"></textarea>
-						<!-- <textarea id="replyContent" name="replyContent" placeholder="댓글을 입력해주세요." oninput="checkReplyContent()"></textarea> -->
+						<textarea id="replyContent" name="replyContent" placeholder="댓글을 입력해주세요." oninput="checkContent(this)"></textarea>
 					</div>
 					<div class="reply-btn">
-						<button type="submit" class="mybtn reply-submit disabled" id="replySubmit" onclick="return replyWrite()">등록</button>
+						<button type="submit" class="mybtn reply-submit disabled" id="replySubmit">등록</button>
 					</div>
 				</div>
 			</div>
@@ -55,7 +54,7 @@
 											</ul>
 										</c:if>
 									</div>
-									<div class="content"><span>${list.content }</span></div>
+									<div class="content">${list.content }</div>
 									<c:if test="${list.depth == 0 }">
 										<div class="rereply-btn">
 											<a>답글달기</a>

@@ -72,12 +72,10 @@ public class BoardController {
 	@PostMapping("/write")
 	public String write(BoardDTO boardDTO, HttpSession session) throws Exception {
 		
-		log.info("getContent: {}",boardDTO.getContent());
-		
 		boardDTO.setUserId(session.getAttribute("userId").toString());
 		boardService.create(boardDTO);
 		
-		log.info("게시판 작성 처리 - {}", boardDTO.toString());
+		log.info("게시판 작성 처리");
 		
 		return "redirect:/board/list";
 	}
@@ -88,7 +86,6 @@ public class BoardController {
 		
 		ModelAndView mv = new ModelAndView();
 		log.info("게시판 상세보기 페이지");
-		log.info("contnet: {}", boardDTO.getContent());
 		
 		mv.setViewName("board/view");
 		mv.addObject("boardDTO", boardDTO);
@@ -122,7 +119,7 @@ public class BoardController {
 		
 		boardService.update(session, boardDTO);
 		
-		log.info("게시판 수정 처리 - {}", boardDTO.toString());
+		log.info("게시판 수정 처리");
 		
 		return "redirect:/board/view/" + boardDTO.getBoardNum();
 	}

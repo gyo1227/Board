@@ -27,6 +27,7 @@ $(document).ready(function(){
 });
 sessionStorage.clear()
 
+/* 댓글 목록 로딩 */
 function replyList(){
 	var boardNum = ${boardDTO.boardNum}
 	var data = {
@@ -44,37 +45,34 @@ function replyList(){
 	});
 }
 
-function checkContent() {
-	var id = $(this).find('textarea')
-	console.log(id)
-	/* if(content != '') {
-		$('#replySubmit').removeClass('disabled')
-	} else {
-		$('#replySubmit').addClass('disabled')
-	} */
-}
-
-/* function checkReplyContent() {
-	var content = $("#replyContent").val()
+/* textarea 공백 체크 */
+function checkContent(e) {
+	var id = $('#'+e.id)
+	var content = id.val()
+	var btnId = (id.parents('div')).children('.reply-btn').children('button')[0].id
 	if(content != '') {
-		$('#replySubmit').removeClass('disabled')
+		$('#'+btnId).removeClass('disabled') 
 	} else {
-		$('#replySubmit').addClass('disabled')
+		$('#'+btnId).addClass('disabled')
 	}
 }
 
-function checkReReplyContent() {
-	var content = $("#rereplyContent").val()
-	if(content != '') {
-		$('#rereplySubmit').removeClass('disabled')
-	} else {
-		$('#rereplySubmit').addClass('disabled')
-	}
-} */
+/* \n -> <br> */
+function replaceContent(content) {
+	
+	var beContent = content
+	
+	var afContent = beContent.replace(/(\n|\r\n)/g, '<br>')
+	
+	return afContent
+}
 
-function replyWrite(){
+/* 댓글 등록 */
+$(document).on("click", "#replySubmit", function(){
 	var boardNum = ${boardDTO.boardNum}
 	var content = $("#replyContent").val()
+	
+	content = replaceContent(content)
 	
 	if(content == '') {
 		alert('댓글을 입력해주세요.')
@@ -99,12 +97,15 @@ function replyWrite(){
 			}
 		}
 	});
-}
+})
 
-function rereplyWrite(){
+/* 대댓글 등록 */
+$(document).on("click", "#rereplySubmit", function(){
 	var boardNum = ${boardDTO.boardNum}
-	var replyNum = ((((($('#rereplyContentSubmit').closest('div')).closest('div')).closest('div')).closest('li')).attr('id')) 
+	var replyNum = ((((($('#rereplySubmit').closest('div')).closest('div')).closest('div')).closest('li')).attr('id')) 
 	var content = $("#rereplyContent").val()
+	
+	content = replaceContent(content)
 	
 	if(content == '') {
 		alert('댓글을 입력해주세요.')
@@ -130,8 +131,10 @@ function rereplyWrite(){
 			}
 		}
 	});
-}
+})
 
+
+/* 로그인 체크 */
 $(document).on("click", ".reply-input-btn", function(){
 	var session = sessionStorage.getItem('session')
 	if(session == null) {
@@ -141,9 +144,9 @@ $(document).on("click", ".reply-input-btn", function(){
 	}
 })
 
+/* 답글 등록 */
 $(document).on("click", ".rereply-btn a", function(){
 	var replyNum = ($(this).closest('div')).closest('li').attr('id')
-	console.log(($(this).closest('div')).closest('li').attr('id'))
 	var session = sessionStorage.getItem('session')
 	if(session == null) {
 		alert('댓글을 등록하려면 로그인이 필요합니다.')
@@ -151,20 +154,18 @@ $(document).on("click", ".rereply-btn a", function(){
 		return false;
 	}
 	if($('#reply'+replyNum).length > 0) {
-		$('div').remove('.rereply-form')
+		$('div').remove('.aa')
 	} else {
-		$('div').remove('.rereply-form')
+		$('div').remove('.aa')
 		$('#'+replyNum).append(
-			'<div class="reply-form rereply-form" id="reply'+replyNum+'">' +
+			'<div class="reply-form rereply-form aa" id="reply'+replyNum+'">' +
 				'<i class="bi bi-arrow-90deg-down"></i>' +
 				'<div class="reply-input-btn">' +
 					'<div class="reply-input">' +
-						'<textarea id="rereplyContent" name="rereplyContent" placeholder="댓글을 입력해주세요." oninput="checkContent(' + $("#rereplyContent") + ')"></textarea>' +
-						/* '<textarea id="rereplyContent" name="rereplyContent" placeholder="댓글을 입력해주세요." oninput="checkReReplyContent()"></textarea>' + */
+						'<textarea id="rereplyContent" name="rereplyContent" placeholder="댓글을 입력해주세요." oninput="checkContent(this)"></textarea>' +
 					'</div>' +
 					'<div class="reply-btn">' +
-						'<button type="submit" class="mybtn reply-submit disabled" id="rereplyContentSubmit" onclick="return rereplyWrite()">등록</button>' +
-						/* '<button type="submit" class="mybtn reply-submit disabled" id="rereplySubmit" onclick="return rereplyWrite()">등록</button>' + */
+						'<button type="submit" class="mybtn reply-submit disabled" id="rereplySubmit">등록</button>' +
 					'</div>' +
 				'</div>' +
 			'</div>'
@@ -173,7 +174,7 @@ $(document).on("click", ".rereply-btn a", function(){
 	}
 })
 
-
+/* 댓글 div -> textarea */
 $(document).on("click", "#replyUpdate", function(){
 	var replyNum = ((($(this).closest('div')).closest('div')).closest('li')).attr('id')
 	
@@ -181,18 +182,17 @@ $(document).on("click", "#replyUpdate", function(){
 		alert('한번에 한개의 댓글만 수정 가능합니다.')
 		return false;
 	}
-	
 	$('li#'+replyNum).addClass('updateReply')
 	$('li#'+replyNum).html(
-			'<div class="reply-form rereply-form">' +
+			'<div class="reply-form">' +
 				'<input type="hidden" class="depth" value="' + $("li#"+replyNum+" .depth").val() + '">' +
 				'<input type="hidden" class="nickName" value="' + $("li#"+replyNum+" .nickName").text() + '">' +
 				'<input type="hidden" class="regDate" value="' + $("li#"+replyNum+" .regDate").text() + '">' +
+				'<input type="hidden" class="content" value="' + $("li#"+replyNum+" .content")[0].innerText + '">' +
 				'<div class="reply-input-btn">' +
 					'<div class="reply-input">' +
-						'<textarea id="updateContent" name="updateContent" placeholder="댓글을 입력해주세요." oninput="checkContent()">'
-						/* '<textarea id="updateContent" name="updateContent" placeholder="댓글을 입력해주세요." oninput="checkUpdateContent()">' */
-							+ $("li#"+replyNum+" .content").text() +
+						'<textarea id="updateContent" name="updateContent" placeholder="댓글을 입력해주세요." oninput="checkContent(this)">'
+							+ $("li#"+replyNum+" .content")[0].innerText +
 						'</textarea>' +
 					'</div>' +
 					'<div class="reply-btn replyUpdate">'+
@@ -204,20 +204,13 @@ $(document).on("click", "#replyUpdate", function(){
 	
 })
 
-
-function checkUpdateContent() {
-	var content = $("#updateContent").val()
-	if(content != '') {
-		$('#updateReplySubmit').removeClass('disabled')
-	} else {
-		$('#updateReplySubmit').addClass('disabled')
-	}
-}
-
+/* 댓글 수정 */
 $(document).on("click", "#updateReplySubmit", function(){
 	var replyNum = ((($(this).closest('div')).closest('div')).closest('li')).attr('id')
 	
 	var content = $('#updateContent').val()
+	
+	content = replaceContent(content)
 	
 	if(content == '') {
 		alert('댓글을 입력해주세요.')
@@ -242,6 +235,7 @@ $(document).on("click", "#updateReplySubmit", function(){
 	});
 })
 
+/* 댓글 수정 취소 */
 $(document).on("click", "#updateCancel-btn", function(){
 	var replyNum = ((($(this).closest('div')).closest('div')).closest('li')).attr('id')
 	$('li#'+replyNum).removeClass('updateReply')
@@ -261,7 +255,7 @@ $(document).on("click", "#updateCancel-btn", function(){
 					'<li><a class="dropdown-item" id="replyDelete">삭제</a></li>' +
 				'</ul>' +
 			'</div>' +
-			'<div class="content"><span>' + $("#updateContent").val() + '</span></div>'
+			'<div class="content">' + replaceContent($("li#"+replyNum+" .content").val()) + '</div>'
 		)
 	} else {
 		$('li#'+replyNum).html(
@@ -277,7 +271,7 @@ $(document).on("click", "#updateCancel-btn", function(){
 						'<li><a class="dropdown-item" id="replyDelete">삭제</a></li>' +
 					'</ul>' +
 				'</div>' +
-				'<div class="content"><span>' + $("#updateContent").val() + '</span></div>' +
+				'<div class="content">' + replaceContent($("li#"+replyNum+" .content").val()) + '</div>' +
 			
 				'<div class="rereply-btn">' +
 					'<a>답글달기</a>' +
@@ -286,6 +280,7 @@ $(document).on("click", "#updateCancel-btn", function(){
 	}
 })
 
+/* 댓글 삭제 */
 $(document).on("click", "#replyDelete", function(){
 	var replyNum = ((($(this).closest('div')).closest('div')).closest('li')).attr('id')
 	
@@ -307,7 +302,7 @@ $(document).on("click", "#replyDelete", function(){
 		}
 	});
 })
-	
+/* 게시글 수정 */
 function update_(){
 	if(confirm('수정 하시겠습니까?')) {
 		return true
@@ -315,6 +310,7 @@ function update_(){
 	return false;
 }
 
+/* 게시글 삭제 */
 function delete_(){
 	if(confirm('삭제 하시겠습니까?')) {
 		return true

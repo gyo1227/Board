@@ -6,7 +6,6 @@
 	resize: none;
 }
 
-
 /* list */
 .board-list .reply {
 	color: #f94b4b;
@@ -32,16 +31,6 @@
 #nolist {
 	text-align: center;
 }
-
-/* .mybtn {
-	padding: 6px 12px;
-	border: 1px solid #d1d1d1;
-	border-radius: 5px;
-}
-
-.mybtn:hover {
-	background-color: #e4e4e4;
-} */
 
 /* search-bar */
 .select-list {
@@ -141,6 +130,10 @@
 	border-top: 1px solid #ccc;
 }
 
+.updateReply .reply-form {
+	margin: 0;
+}
+
 .reply-form {
 	width: 100%;
 	background: #f8f8f8;
@@ -187,11 +180,16 @@
 
 .reply-list ul {
 	list-style: none;
+	padding-left: 0;
 }
 
 .replyOne {
 	padding: 10px;
 	border-bottom: 1px solid #dcdcdc;;
+}
+
+.replyOne .title {
+	padding-bottom: 8px;
 }
 
 .nickName {

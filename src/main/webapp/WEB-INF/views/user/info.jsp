@@ -63,11 +63,12 @@ function changePw() {
 				$('.modalContent').text(result.message)
 				$('#modalClosed').click(function(){
 					$('.myModal').addClass("hidden")
+					curPw.focus();
 				})
 			}
 		},
 		error:function(){
-			console.log("에러입니다");
+			console.log('에러입니다.');
 		}
 	})
 }
@@ -78,7 +79,6 @@ function changeNick() {
 	data = {
 		'changeNickName':nickName.val(),
 	}
-	console.log(data)
 	
 	$.ajax({
 		url: '/user/changeNickName',
@@ -102,7 +102,7 @@ function changeNick() {
 			}
 		},
 		error:function(){
-			console.log("에러입니다");
+			console.log('에러입니다.');
 		}
 	})
 }
@@ -113,7 +113,6 @@ function deleteUser() {
 	data = {
 		'userPw':userPw.val(),
 	}
-	console.log(data)
 	
 	$.ajax({
 		url: '/user/deleteUser',
@@ -251,7 +250,7 @@ function cancel(off, on){
 										<span class="text-bold">${userDTO.nickName }</span>
 										<div class="input-group">
 											<input type="text" class="myInput" id="changeNickName" placeholder="변경 닉네임">
-											<small>사용하실 닉네임을 입력해 주세요.</small>
+											<small>사용하실 닉네임을 입력해 주세요.(최대 6글자)</small>
 										</div>
 										<nav>
 											<a href="#" id="changeNick" onclick="changeNick()">

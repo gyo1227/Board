@@ -9,6 +9,21 @@ function logout(){
 	}
 	return false;
 }
+
+$(document).ready(function(){
+	$.ajax({
+		url: '/user/nickName',
+		type: 'post',
+		success: function(result){
+			if(result.nickName != null) {
+				$('#nickName').text(result.nickName + ' 님')
+			}
+		},
+		error:function(){
+			console.log('에러입니다.');
+		}
+	})
+})
 </script>
 <header class="p-3 border-bottom">
 
@@ -23,7 +38,7 @@ function logout(){
 				<%-- <c:when test="${pageContext.request.getRequestURI() == '/WEB-INF/views/user/login.jsp'}"></c:when> --%>
 				<c:when test="${sessionScope.userId != null }">
 					<a id="nickName" href="#" class="d-block link-dark text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-						${sessionScope.nickName }님
+						
 					</a>
 					<ul class="dropdown-menu text-small">
 						<li><a class="dropdown-item" href="${pageContext.request.contextPath}/user/info">회원정보</a></li>

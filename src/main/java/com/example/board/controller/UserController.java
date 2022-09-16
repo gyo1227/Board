@@ -11,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -105,7 +106,6 @@ public class UserController {
 		if(result) {
 			userDTO = userService.loginUserInfo(userDTO.getUserId());
 			session.setAttribute("userId", userDTO.getUserId());
-			session.setAttribute("nickName", userDTO.getNickName());
 		} else {
 			mv.addObject("userId", userDTO.getUserId().toString());
 			mv.addObject("message", "fail");
@@ -119,6 +119,24 @@ public class UserController {
 		userService.logout(session);
 		
 		return "redirect:/board/list";
+	}
+	
+	@PostMapping("/nickName")
+	@ResponseBody
+	public Map<String, Object> nickName(HttpSession session) throws Exception {
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		String nickName = null;
+		if(session.getAttribute("userId") != null) {
+			String userId = session.getAttribute("userId").toString();
+			nickName = userService.loginUserInfo(userId).getNickName();
+		}
+		
+		log.info("nickName: {}", nickName);
+		
+		map.put("nickName", nickName);
+		
+		return map;
 	}
 	
 	@GetMapping("/info")
@@ -224,10 +242,12 @@ public class UserController {
 		if(session.getAttribute("userId") != null) {
 			String userId = session.getAttribute("userId").toString();
 
-			int total = userService.total(userId);
+			int total = userService.boardTotal(userId);
 			PageDTO pageDTO = new PageDTO(userId, total, curPage);
-			List<BoardDTO> list = userService.list(new PageDTO(userId, total, curPage));
+			List<BoardDTO> list = userService.boardList(new PageDTO(userId, total, curPage));
 			LocalDate today = LocalDate.now();
+
+			log.info("pageDTO: {}", pageDTO);
 			
 			mv.setViewName("user/boardList");
 			mv.addObject("pageDTO", pageDTO);
@@ -248,17 +268,15 @@ public class UserController {
 		if(session.getAttribute("userId") != null) {
 			String userId = session.getAttribute("userId").toString();
 			
-			int total = userService.total(userId);
+			int total = userService.replyTotal(userId);
 			PageDTO pageDTO = new PageDTO(userId, total, curPage);
-			List<BoardDTO> list = userService.list(new PageDTO(userId, total, curPage));
-			LocalDate today = LocalDate.now();
+			List<BoardDTO> list = userService.replyList(new PageDTO(userId, total, curPage));
 			
 			log.info("pageDTO: {}", pageDTO);
 			
 			mv.setViewName("user/replyList");
 			mv.addObject("pageDTO", pageDTO);
 			mv.addObject("list", list);
-			mv.addObject("today", today);
 		} else {
 			mv.setViewName("user/info");
 		}

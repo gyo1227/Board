@@ -61,49 +61,6 @@ function checkId() {
 		});
 	}
 };
-function checkNickName() {
-	var nickName = $('#nickName').val()
-	if(nickName == '') {
-		$('#nickNamecheck').css("display", "none")
-		$('#nickNamecheck').text('')
-		$('#nickNamecheck').removeClass('ok')
-		$('#nickNamecheck').removeClass('no')
-		$('#submit').addClass('disabled')
-	} else if(nickName.replace(/\s/g,'').length == 0) {
-		$('#nickNamecheck').css("display", "inline-block")
-		$('#nickNamecheck').text('공백은 입력할 수 없습니다.')
-		$('#nickNamecheck').removeClass('ok')
-		$('#nickNamecheck').addClass('no')
-		$('#submit').addClass('disabled')
-	} else {
-		$.ajax({
-			url:'/user/nickNameCheck',
-			type:'post',
-			data:{nickName:nickName},
-			success:function(cnt){
-				if(cnt != 1) {
-					$('#nickNamecheck').css("display", "inline-block")
-					$('#nickNamecheck').text('사용 가능한 닉네임입니다.')
-					$('#nickNamecheck').removeClass('no')
-					$('#nickNamecheck').addClass('ok')
-					if($('#idCheck').text() == '사용 가능한 아이디입니다.'
-							&& $('#pwCheck').text() == '사용 가능한 비밀번호입니다.') {
-						$('#submit').removeClass('disabled')
-					}
-				} else {
-					$('#nickNamecheck').css("display", "inline-block")
-					$('#nickNamecheck').text('이미 사용중인 닉네임입니다.')
-					$('#nickNamecheck').removeClass('ok')
-					$('#nickNamecheck').addClass('no')
-					$('#submit').addClass('disabled')
-				}
-			},
-			error:function(){
-				console.log("에러입니다");
-			}
-		});
-	}
-};
 
 function checkPw() {
 	var userPw = $('#userPw').val()
@@ -130,6 +87,52 @@ function checkPw() {
 		$('#submit').addClass('disabled')
 	}
 }
+
+function checkNickName(e) {
+	if(e.value == '') {
+		$('#nickNamecheck').css("display", "none")
+		$('#nickNamecheck').text('')
+		$('#nickNamecheck').removeClass('ok')
+		$('#nickNamecheck').removeClass('no')
+		$('#submit').addClass('disabled')
+	} else if(e.value.replace(/\s/g,'').length > e.maxLength) {
+		e.value = e.value.slice(0, e.maxLength);
+		$('#nickNamecheck').css("display", "inline-block")
+		$('#nickNamecheck').text('6글자까지만 가능합니다.')
+		$('#nickNamecheck').removeClass('ok')
+		$('#nickNamecheck').addClass('no')
+		$('#submit').addClass('disabled')
+	} else {
+		$.ajax({
+			url:'/user/nickNameCheck',
+			type:'post',
+			data:{
+				'nickName': e.value
+			},
+			success:function(cnt){
+				if(cnt != 1) {
+					$('#nickNamecheck').css("display", "inline-block")
+					$('#nickNamecheck').text('사용 가능한 닉네임입니다.')
+					$('#nickNamecheck').removeClass('no')
+					$('#nickNamecheck').addClass('ok')
+					if($('#idCheck').text() == '사용 가능한 아이디입니다.'
+							&& $('#pwCheck').text() == '사용 가능한 비밀번호입니다.') {
+						$('#submit').removeClass('disabled')
+					}
+				} else {
+					$('#nickNamecheck').css("display", "inline-block")
+					$('#nickNamecheck').text('이미 사용중인 닉네임입니다.')
+					$('#nickNamecheck').removeClass('ok')
+					$('#nickNamecheck').addClass('no')
+					$('#submit').addClass('disabled')
+				}
+			},
+			error:function(){
+				console.log("에러입니다");
+			}
+		});
+	}
+};
 </script>
 <body>
 <div id="body">
@@ -145,7 +148,7 @@ function checkPw() {
 		<div class="form">
 			<form class="user-form" name="form" method="post" action="${pageContext.request.contextPath}/user/join">
 				<div class="form-floating mb-3">
-					<input type="text" class="form-control" id="userId" name="userId" placeholder="아이디를 입력하세요." oninput="checkId()"/>
+					<input type="text" class="form-control" id="userId" name="userId" placeholder="아이디를 입력하세요." pattern="[a-zA-Z0-9]" oninput="checkId()"/>
 					<label for="userId">아이디</label>
 					<span class="check" id="idCheck">이미 사용중인 아이디입니다.</span>
 				</div>
@@ -155,7 +158,7 @@ function checkPw() {
 					<span class="check" id="pwCheck"></span>
 				</div>		
 				<div class="form-floating mb-3">
-					<input type="text" class="form-control" id="nickName" name="nickName" placeholder="닉네임을 입력하세요." oninput="checkNickName()"/>
+					<input type="text" class="form-control" id="nickName" name="nickName" placeholder="닉네임을 입력하세요." oninput="checkNickName(this)" maxlength="6"/>
 					<label for="nickName">닉네임</label>
 					<span class="check" id="nickNamecheck">이미 사용중인 닉네임입니다.</span>
 				</div>

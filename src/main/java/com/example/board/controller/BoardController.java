@@ -110,13 +110,6 @@ public class BoardController {
 	@PostMapping("/update/{boardNum}")
 	public String update(HttpSession session, BoardDTO boardDTO, HttpServletRequest request) throws Exception {
 		
-		if(session.getAttribute("userId") == null) {
-			request.setAttribute("msg", "로그인이 필요합니다.");
-			request.setAttribute("url", "/user/login");
-			
-			return "includes/alert";
-		}
-		
 		boardService.update(session, boardDTO);
 		
 		log.info("게시판 수정 처리");

@@ -42,8 +42,8 @@
 									<div class="title">
 										<input type="hidden" class="depth" value="${list.depth }">
 										<span class="nickName">${list.nickName }</span>
-										<fmt:parseDate value="${list.regDate }" pattern="yyyy-MM-dd'T'HH:mm:ss" var="regDate"/>
-										<span class="regDate">(<fmt:formatDate value="${regDate }" pattern="yyyy-MM-dd HH:mm:ss" />)</span>
+										<fmt:parseDate value="${list.regDate }" pattern="yyyy-MM-dd'T'HH:mm" var="regDate"/>
+										<span class="regDate">(<fmt:formatDate value="${regDate }" pattern="yyyy-MM-dd HH:mm" />)</span>
 										<c:if test="${sessionScope.userId == list.userId }">
 											<a class="link-dark text-decoration-none replyOpt" data-bs-toggle="dropdown" aria-expanded="false">
 												<i class="bi bi-three-dots-vertical"></i>

@@ -319,55 +319,63 @@ function delete_(){
 }
 </script>
 <body>
-<%@include file="../includes/header.jsp"%>
-	<div class="container">
-		<div class="board mb-5">
-			<div class="board-info">
-				<div class="mb-4" style="background: #f8f8f8; border-bottom: 1px solid #ccc;">
-					<div class="row text-center p-3">
-						<div class="col-4 text-start">
-							작성자:
-							<c:out value="${boardDTO.nickName }"/>
-						</div>
-						<div class="col-4">
-							<fmt:parseDate value="${boardDTO.regDate }" pattern="yyyy-MM-dd'T'HH:mm" var="parsedDateTime" type="both"/>
-							<fmt:formatDate value="${parsedDateTime }" pattern="yyyy-MM-dd HH:mm" />
-						</div>
-						<div class="col-4 text-end">
-							조회수:
-							<c:out value="${boardDTO.viewCnt }"/>
+<c:choose>
+	<c:when test="${boardDTO.deleteChk == 1 }">
+		<script>
+			alert('삭제된 게시물입니다.')
+			location.href="/"
+		</script>
+	</c:when>
+	<c:otherwise>
+		<%@include file="../includes/header.jsp"%>
+		<div class="container">
+			<div class="board mb-5">
+				<div class="board-info">
+					<div class="mb-4" style="background: #f8f8f8; border-bottom: 1px solid #ccc;">
+						<div class="row text-center p-3">
+							<div class="col-4 text-start">
+								작성자:
+								<c:out value="${boardDTO.nickName }"/>
+							</div>
+							<div class="col-4">
+								<fmt:parseDate value="${boardDTO.regDate }" pattern="yyyy-MM-dd'T'HH:mm" var="parsedDateTime" type="both"/>
+								<fmt:formatDate value="${parsedDateTime }" pattern="yyyy-MM-dd HH:mm" />
+							</div>
+							<div class="col-4 text-end">
+								조회수:
+								<c:out value="${boardDTO.viewCnt }"/>
+							</div>
 						</div>
 					</div>
 				</div>
+				<c:if test="${sessionScope.userId == boardDTO.userId }">
+					<div class="view-Opt">
+						<a href="${pageContext.request.contextPath}/board/update/${boardDTO.boardNum}" onclick="return update_()">수정</a>|<a href="${pageContext.request.contextPath}/board/delete/${boardDTO.boardNum}" onclick="return delete_()">삭제</a>
+					</div>
+				</c:if>
+				<div style="margin: 0 25px;">
+					<div class="board-title mb-5">
+						<h2>
+							<c:out value="${boardDTO.title }"/><br>
+						</h2>
+					</div>
+					<div class="board-content">
+						${fn:replace(boardDTO.content, replace, "<br>") }
+					</div>
+				</div>
 			</div>
-			<c:if test="${sessionScope.userId == boardDTO.userId }">
-				<div class="view-Opt">
-					<a href="${pageContext.request.contextPath}/board/update/${boardDTO.boardNum}" onclick="return update_()">수정</a>|<a href="${pageContext.request.contextPath}/board/delete/${boardDTO.boardNum}" onclick="return delete_()">삭제</a>
-				</div>
-			</c:if>
-			<div style="margin: 0 25px;">
-				<div class="board-title mb-5">
-					<h2>
-						<c:out value="${boardDTO.title }"/><br>
-					</h2>
-				</div>
-				<div class="board-content">
-					${fn:replace(boardDTO.content, replace, "<br/>") }
-				</div>
+			<div id="reply">
+			
 			</div>
+			 
 		</div>
-		<div id="reply">
-		
-		</div>
-		
-		 
-	</div>
-	<c:if test="${sessionScope.userId != null }">
-		<script>
-			sessionStorage.setItem('session', '${sessionScope.nickName }')
-		</script>
-	</c:if>
-	
-<%@include file="../includes/footer.jsp"%>
+		<c:if test="${sessionScope.userId != null }">
+			<script>
+				sessionStorage.setItem('session', '${sessionScope.nickName }')
+			</script>
+		</c:if>
+		<%@include file="../includes/footer.jsp"%>
+	</c:otherwise>
+</c:choose>
 </body>
 </html>

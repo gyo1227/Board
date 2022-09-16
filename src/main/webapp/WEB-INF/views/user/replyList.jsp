@@ -1,7 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>    
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
+<% pageContext.setAttribute("replace", "<br>"); %>    
 <!DOCTYPE html>
 <html>
 <head>
@@ -23,25 +25,27 @@
 function chkDelete(){
 	if(confirm('삭제 하시겠습니까?')) {
 		var chkArr = new Array();
+		var depthArr = new Array();
 		
 		$('input[class="chBox"]:checked').each(function(){
+			depthArr.push($('#'+$(this).val()+' .depth').val())	
 			chkArr.push($(this).val())
 		})
-		console.log(chkArr)
 		if(chkArr.length == 0) {
 			alert('선택된 게시글이 없습니다.')
 			return false
 		}
 		
 		$.ajax({
-			url: '/board/chkDelete',
+			url: '/reply/chkDelete',
 			type: 'post',
 			data: {
-				'chkArr': chkArr
+				'chkArr': chkArr,
+				'depthArr': depthArr
 			},
 			success:function(){
 				alert('삭제가 완료되었습니다.')
-				location.href='/user/board';
+				location.href='/user/replyList';
 			},
 			error:function(){
 				console.log('에러입니다.')
@@ -88,46 +92,52 @@ $(document).ready(function(){
 						</div>
 						<c:choose>
 							<c:when test="${list != null }">
-								<div class="board-list">
+								<div class="reply-list">
 									<table class="table table-body">
 										<colgroup>
 											<col class="col-2">
-											<col class="col-6">
-											<col class="col-2">
-											<col class="col-2">
+											<col class="col-10">
 										</colgroup>
 										<thead>
 											<tr class="text-center">
 												<th><input type="checkbox" id="allCheck"><label style="font-size: 14px;padding-left: 6px;">전체선택</label></th>
-												<th>제목</th>
-												<th>작성일</th>
-												<th>조회수</th>
+												<th>댓글</th>
 											</tr>
 										</thead>
 										<tbody>
 											<c:forEach items="${list }" var="list">
 												<tr>
-													<td class="text-center">
-														<input type="checkbox" class="chBox" value="${list.boardNum }">
+													<td class="text-center" id=${list.replyNum }>
+														<input type="checkbox" class="chBox" value="${list.replyNum }">
+														<input type="hidden" class="depth" value="${list.depth }">
 													</td>
-													<td>
-														<a href='${pageContext.request.contextPath}/board/view/<c:out value="${list.boardNum }"/>'><c:out value="${list.title}"/><span class="reply"> [<c:out value="${list.replyCnt}" />]</span></a>
+													<td class="reply-info">
+														<c:if test="${list.title != null }">
+															<a href='${pageContext.request.contextPath}/board/view/<c:out value="${list.boardNum }"/>'>
+														</c:if>
+														
+															<div class="replyContent">
+																${fn:replace(list.content, replace, " ") }
+															</div>
+															<fmt:parseDate value="${list.regDate }" pattern="yyyy-MM-dd'T'HH:mm" var="parsedDateTime" type="both"/>
+					 										<c:set var="ymddate"><fmt:formatDate value="${parsedDateTime }" pattern="yyyy-MM-dd" /></c:set>
+			 												<div class="replyDate">
+						 										<c:out value="${ymddate }"></c:out>
+			 												</div>
+					 										<div class="replyTitle">
+						 										<c:choose>
+							 										<c:when test="${list.title == null }">
+							 											(삭제된 게시글)
+							 										</c:when>
+							 										<c:otherwise>
+																			${list.title }
+							 										</c:otherwise>
+						 										</c:choose>
+															</div>
+														<c:if test="${list.title == null }">
+															</a>
+														</c:if>
 													</td>
-													<td class="text-center">
-														<fmt:parseDate value="${list.regDate }" pattern="yyyy-MM-dd'T'HH:mm" var="parsedDateTime" type="both"/>
-				 										<c:set var="ymddate"><fmt:formatDate value="${parsedDateTime }" pattern="yyyy-MM-dd" /></c:set>
-				 										<c:set var="mddate"><fmt:formatDate value="${parsedDateTime }" pattern="MM-dd" /></c:set>
-				 										<c:set var="time"><fmt:formatDate value="${parsedDateTime }" pattern="HH:mm" /></c:set>
-				 										<c:choose>
-				 											<c:when test="${ymddate == today }">
-						 										<c:out value="${time }"></c:out>
-				 											</c:when>
-				 											<c:otherwise>
-						 										<c:out value="${mddate }"></c:out>
-				 											</c:otherwise>
-				 										</c:choose>
-													</td>
-													<td class="text-center">${list.viewCnt }</td>
 												</tr>
 											</c:forEach>
 										</tbody>
@@ -136,15 +146,15 @@ $(document).ready(function(){
 										<c:if test="${total != 0}">
 											<ul class="page justify-content-center">
 												<li>
-													<a class="paging ${pageDTO.prev == false ? 'disabled': '' }" href="ReplyList?p=${pageDTO.startPage-10 }" aria-label="Previous">
+													<a class="paging ${pageDTO.prev == false ? 'disabled': '' }" href="replyList?p=${pageDTO.startPage-10 }" aria-label="Previous">
 														<span aria-hidden="true">&laquo;</span>
 													</a>
 												</li>
 												<c:forEach var="num" begin="${pageDTO.startPage }" end="${pageDTO.endPage }">
-													<li><a class="paging ${pageDTO.curPage == num ? 'active': '' }" href="ReplyList?p=${num }">${num }</a></li>
+													<li><a class="paging ${pageDTO.curPage == num ? 'active': '' }" href="replyList?p=${num }">${num }</a></li>
 												</c:forEach>
 												<li>
-													<a class="paging ${pageDTO.next == false ? 'disabled': '' }" href="ReplyList?p=${pageDTO.startPage +10 }" aria-label="Next">
+													<a class="paging ${pageDTO.next == false ? 'disabled': '' }" href="replyList?p=${pageDTO.startPage +10 }" aria-label="Next">
 														<span aria-hidden="true">&raquo;</span>
 													</a>
 												</li>
@@ -160,7 +170,7 @@ $(document).ready(function(){
 							
 							</c:when>
 							<c:otherwise>
-								<div style="width: 700px; text-align: center;">작성한 게시글이 없습니다.</div>
+								<div style="width: 700px; text-align: center;">작성한 댓글이 없습니다.</div>
 							</c:otherwise>
 						</c:choose>
 	
@@ -174,7 +184,8 @@ $(document).ready(function(){
 			</script>
 		</c:otherwise>
 	</c:choose>
-
+	<!-- background-color: #f7f7f7; -->
+<%@include file="../includes/footer.jsp"%>
 </div>
 </body>
 </html>

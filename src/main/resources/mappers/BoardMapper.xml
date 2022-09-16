@@ -20,12 +20,12 @@
 				FROM 
 					reply r 
 				WHERE 
-					r.boardNum = b.boardNum
+					r.boardNum = b.boardNum and r.deleteChk = 0
 			) as replyCnt
 		FROM
 			board b, users u
 		WHERE
-			b.userId = u.userId
+			b.userId = u.userId and b.deleteChk = 0
 		<if test="option != ''">
 			<choose>
 				<when test='option == "title"'>
@@ -71,12 +71,13 @@
 			b.regDate,
 			b.viewCnt,
 			count(r.replyNum) as replyCnt,
+			b.deleteChk,
 			b.userId,
 			u.nickName
 		FROM
 			board b, users u, reply r
 		WHERE
-			b.userId = u.userId and b.boardNum = ${boardNum} and b.boardNum = r.boardNum;
+			b.userId = u.userId and b.boardNum = #{boardNum} and b.boardNum = r.boardNum;
 	</select>
 	
 	<!-- 게시글 조회수 증가 -->
@@ -100,6 +101,7 @@
 	</update>
 	
 	<!-- 게시글 삭제 -->
+<!-- 
 	<delete id="delete">
 		DELETE
 		FROM
@@ -107,30 +109,46 @@
 		WHERE
 			boardNum = #{boardNum}
 	</delete>
+-->
+
+	<update id="delete">
+		UPDATE
+			board
+		SET
+			deleteChk = 1
+		WHERE
+			boardNum = #{boardNum}
+	</update>
 	
+	<!-- 게시글 갯수 -->
 	<select id="total" resultType="int">
 		SELECT 
 			count(*) 
 		FROM
 			board
-		<if test="option != ''">
-			<trim prefix="WHERE">
-				<choose>
-					<when test='option == "title"'>
-						title like concat('%','${query}','%')
-					</when>
-					<when test='option == "content"'>
-						content like concat('%','${query}','%')
-					</when>
-					<when test='option == "titleContent"'>
-						title like concat('%','${query}','%') or content like concat('%','${query}','%')
-					</when>
-				</choose>
-			</trim>
-		</if>
-		<if test='option == "nickName"'>
-			b, users u where b.userId = u.userId and nickName like concat('%','${query}','%')
-		</if>
+		<choose>
+			<when test="option != ''">
+				<trim prefix="WHERE">
+					<choose>
+						<when test='option == "title"'>
+							deleteChk = 0 AND title like concat('%','${query}','%')
+						</when>
+						<when test='option == "content"'>
+							deleteChk = 0 AND content like concat('%','${query}','%')
+						</when>
+						<when test='option == "titleContent"'>
+							deleteChk = 0 AND title like concat('%','${query}','%') or content like concat('%','${query}','%')
+						</when>
+					</choose>
+				</trim>
+			</when>
+			<when test='option == "nickName"'>
+				b, users u where b.userId = u.userId and b.deleteChk = 0 and nickName like concat('%','${query}','%')
+			</when>
+			<otherwise>
+				where deleteChk = 0
+			</otherwise>
+		</choose>
 	</select>
 
 </mapper>

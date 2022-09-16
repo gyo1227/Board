@@ -206,8 +206,11 @@
 }
 
 .rereply {
-	/* padding-left: 40px; */
     background: #F8F8F8;
+}
+
+.rereply .content {
+    padding-left: 24px;
 }
 
 .updateReply {

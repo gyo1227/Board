@@ -153,7 +153,7 @@ $(document).ready(function(){
 									</nav>
 								</div>
 								<div>
-									<a href="#" onclick="return chkDelete()">
+									<a onclick="return chkDelete()">
 										<span class="mybtn mybtn-sm">선택삭제</span>
 									</a>
 								</div>
@@ -174,7 +174,6 @@ $(document).ready(function(){
 			</script>
 		</c:otherwise>
 	</c:choose>
-
 </div>
 </body>
 </html>

@@ -85,7 +85,7 @@
 		userId = #{userId}
 	</delete>
 	
-	<select id="total" resultType="int">
+	<select id="boardTotal" resultType="int">
 		SELECT
 			count(*)
 		FROM
@@ -94,26 +94,59 @@
 			userId = #{userId}
 	</select>
 	
-	<select id="list" resultType="com.example.board.dto.BoardDTO">
+	<select id="boardList" resultType="com.example.board.dto.BoardDTO">
 		SELECT
-			boardNum,
-			title,
-			regDate,
-			viewCnt,
+			b.boardNum,
+			b.title,
+			b.regDate,
+			b.viewCnt,
 			(
 				SELECT 
 					count(*) 
 				FROM 
 					reply r 
 				WHERE 
-					r.boardNum = b.boardNum
+					r.boardNum = b.boardNum and r.deleteChk = 0
 			) as replyCnt
 		FROM
 			board b
 		WHERE
-			userId = #{userId}
+			userId = #{userId} and b.deleteChk = 0
 		ORDER BY
 			boardNum desc
+		LIMIT #{firstBoardNum}, #{amount}
+	</select>
+
+	<select id="replyTotal" resultType="int">
+		SELECT
+			count(*)
+		FROM
+			reply
+		WHERE
+			userId = #{userId} and deleteChk = 0
+	</select>
+	
+	<select id="replyList" resultType="com.example.board.dto.ReplyDTO">
+		SELECT
+			r.replyNum,
+			r.content,
+			r.regDate,
+			r.depth,
+			r.boardNum,
+			(
+				SELECT
+					b.title
+				FROM
+					board b
+				WHERE
+					r.boardNum = b.boardNum AND b.deleteChk = 0
+			) AS title
+		FROM
+			reply r
+		WHERE
+			r.userId = #{userId} AND r.deleteChk = 0
+		ORDER BY
+			r.regDate DESC
 		LIMIT #{firstBoardNum}, #{amount}
 	</select>
 </mapper>

@@ -21,6 +21,7 @@ public class BoardDTO {
 	private LocalDateTime regDate;		// 게시글 작성일
 	private int viewCnt;				// 게시글 조회수
 	private int replyCnt;				// 게시글 댓글수
+	private int deleteChk;				// 게시글 삭제 여부
 	private String userId;				// 게시글 작성자 아이디
 	private String nickName;			// 게시글 작성자 닉네임
 	
@@ -29,7 +30,7 @@ public class BoardDTO {
 	}
 
 	public BoardDTO(int boardNum, String title, String content, LocalDateTime regDate, int viewCnt, int replyCnt,
-			String userId, String nickName) {
+			int deleteChk, String userId, String nickName) {
 		super();
 		this.boardNum = boardNum;
 		this.title = title;
@@ -37,10 +38,11 @@ public class BoardDTO {
 		this.regDate = regDate;
 		this.viewCnt = viewCnt;
 		this.replyCnt = replyCnt;
+		this.deleteChk = deleteChk;
 		this.userId = userId;
 		this.nickName = nickName;
 	}
-
+	
 	public int getBoardNum() {
 		return boardNum;
 	}
@@ -89,6 +91,14 @@ public class BoardDTO {
 		this.replyCnt = replyCnt;
 	}
 
+	public int getDeleteChk() {
+		return deleteChk;
+	}
+
+	public void setDeleteChk(int deleteChk) {
+		this.deleteChk = deleteChk;
+	}
+
 	public String getUserId() {
 		return userId;
 	}
@@ -108,10 +118,11 @@ public class BoardDTO {
 	@Override
 	public String toString() {
 		return "BoardDTO [boardNum=" + boardNum + ", title=" + title + ", content=" + content + ", regDate=" + regDate
-				+ ", viewCnt=" + viewCnt + ", replyCnt=" + replyCnt + ", userId=" + userId + ", nickName=" + nickName
-				+ "]";
+				+ ", viewCnt=" + viewCnt + ", replyCnt=" + replyCnt + ", deleteChk=" + deleteChk + ", userId=" + userId
+				+ ", nickName=" + nickName + "]";
 	}
 
+	
 	
 	
 }

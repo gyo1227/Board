@@ -72,12 +72,22 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public int total(String userId) throws Exception {
-		return userDAO.total(userId);
+	public int boardTotal(String userId) throws Exception {
+		return userDAO.boardTotal(userId);
 	}
 	
 	@Override
-	public List<BoardDTO> list(PageDTO pageDTO) throws Exception {
-		return userDAO.list(pageDTO);
+	public List<BoardDTO> boardList(PageDTO pageDTO) throws Exception {
+		return userDAO.boardList(pageDTO);
+	}
+
+	@Override
+	public int replyTotal(String userId) throws Exception {
+		return userDAO.replyTotal(userId);
+	}
+	
+	@Override
+	public List<BoardDTO> replyList(PageDTO pageDTO) throws Exception {
+		return userDAO.replyList(pageDTO);
 	}
 }

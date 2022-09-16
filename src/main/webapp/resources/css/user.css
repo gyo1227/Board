@@ -194,4 +194,15 @@ small {
 	background-color: #red;
 }
 
+.reply-list td {
+	font-size: 13px;
+}
+
+.reply-info {
+	cursor: pointer;
+}
+
+.reply-info:hover {
+	text-decoration: underline;
+}
 

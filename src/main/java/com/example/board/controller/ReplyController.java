@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -54,7 +55,6 @@ public class ReplyController {
 		mv.addObject("replyCnt", replyCnt);
 		mv.addObject("list", list);
 		mv.setViewName("ajax/replyAjax");
-		
 		return mv;
 	}
 	
@@ -85,5 +85,17 @@ public class ReplyController {
 		return replyService.deleteReply(replyDTO.getReplyNum());
 	}
 	
+	@PostMapping("/chkDelete")
+	@ResponseBody
+	public void chkDelete(@RequestParam (required = false, value = "chkArr[]") List<String> chkArr, @RequestParam (required = false, value = "depthArr[]") List<String> depthArr) throws Exception {
+		log.info("게시판 선택 삭제 처리");
+		for(int i = 0; i < chkArr.size(); i++) {
+			if(Integer.parseInt(depthArr.get(i)) == 0) {
+				replyService.deleteUpdate(Integer.parseInt(chkArr.get(i)));
+			} else {
+				replyService.deleteReply(Integer.parseInt(chkArr.get(i)));
+			}
+		}
+	}
 	
 }

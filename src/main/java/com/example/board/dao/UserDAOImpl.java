@@ -72,12 +72,22 @@ public class UserDAOImpl implements UserDAO {
 	}
 	
 	@Override
-	public int total(String userId) throws Exception {
-		return sqlsession.selectOne(NAMESPACE + ".total", userId);
+	public int boardTotal(String userId) throws Exception {
+		return sqlsession.selectOne(NAMESPACE + ".boardTotal", userId);
 	}
 
 	@Override
-	public List<BoardDTO> list(PageDTO pageDTO) throws Exception {
-		return sqlsession.selectList(NAMESPACE + ".list", pageDTO);
+	public List<BoardDTO> boardList(PageDTO pageDTO) throws Exception {
+		return sqlsession.selectList(NAMESPACE + ".boardList", pageDTO);
+	}
+
+	@Override
+	public int replyTotal(String userId) throws Exception {
+		return sqlsession.selectOne(NAMESPACE + ".replyTotal", userId);
+	}
+	
+	@Override
+	public List<BoardDTO> replyList(PageDTO pageDTO) throws Exception {
+		return sqlsession.selectList(NAMESPACE + ".replyList", pageDTO);
 	}
 }

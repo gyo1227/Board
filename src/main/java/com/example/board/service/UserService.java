@@ -38,8 +38,14 @@ public interface UserService {
 	public void deleteUser(String userId) throws Exception;
 	
 	// 작성한 게시글 수
-	public int total(String userId) throws Exception;
+	public int boardTotal(String userId) throws Exception;
 	
 	// 작성한 게시글 조회
-	public List<BoardDTO> list(PageDTO pageDTO) throws Exception;
+	public List<BoardDTO> boardList(PageDTO pageDTO) throws Exception;
+
+	// 작성한 댓글 수
+	public int replyTotal(String userId) throws Exception;
+	
+	// 작성한 댓글 조회
+	public List<BoardDTO> replyList(PageDTO pageDTO) throws Exception;
 }

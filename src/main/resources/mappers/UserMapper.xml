@@ -91,7 +91,7 @@
 		FROM
 			board
 		WHERE
-			userId = #{userId}
+			userId = #{userId} and deleteChk = 0
 	</select>
 	
 	<select id="boardList" resultType="com.example.board.dto.BoardDTO">

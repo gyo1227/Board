@@ -140,7 +140,7 @@ function checkNickName(e) {
 <c:if test="${message == '회원가입을 축하합니다.' }">
 	<script>
 		alert('${message}')
-		location.href="${pageContext.request.contextPath}/board/list";
+		location.href="${pageContext.request.contextPath}/user/login";
 	</script>
 </c:if>
 <c:choose>
@@ -148,7 +148,7 @@ function checkNickName(e) {
 		<div class="form">
 			<form class="user-form" name="form" method="post" action="${pageContext.request.contextPath}/user/join">
 				<div class="form-floating mb-3">
-					<input type="text" class="form-control" id="userId" name="userId" placeholder="아이디를 입력하세요." pattern="[a-zA-Z0-9]" oninput="checkId()"/>
+					<input type="text" class="form-control" id="userId" name="userId" placeholder="아이디를 입력하세요." oninput="checkId()"/>
 					<label for="userId">아이디</label>
 					<span class="check" id="idCheck">이미 사용중인 아이디입니다.</span>
 				</div>

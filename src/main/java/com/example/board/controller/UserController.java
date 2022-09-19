@@ -251,6 +251,7 @@ public class UserController {
 			
 			mv.setViewName("user/boardList");
 			mv.addObject("pageDTO", pageDTO);
+			mv.addObject("total", total);
 			mv.addObject("list", list);
 			mv.addObject("today", today);
 		} else {
@@ -277,6 +278,7 @@ public class UserController {
 			mv.setViewName("user/replyList");
 			mv.addObject("pageDTO", pageDTO);
 			mv.addObject("list", list);
+			mv.addObject("total", total);
 		} else {
 			mv.setViewName("user/info");
 		}

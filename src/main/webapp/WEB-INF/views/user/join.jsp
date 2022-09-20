@@ -26,19 +26,25 @@ function checkId() {
 		$('#idCheck').removeClass('ok')
 		$('#idCheck').removeClass('no')
 		$('#submit').addClass('disabled')
-	} else if(userId.replace(/\s/g,'').length == 0) {
-		$('#idCheck').css("display", "inline-block")
-		$('#idCheck').text('공백은 입력할 수 없습니다.')
-		$('#idCheck').removeClass('ok')
-		$('#idCheck').addClass('no')
-		$('#submit').addClass('disabled')
 	} else {
 		$.ajax({
 			url:'/user/idCheck',
 			type:'post',
 			data:{userId:userId},
-			success:function(cnt){
-				if(cnt != 1) {
+			success:function(result){
+				if(result.message == "ERROR") {
+					$('#idCheck').css("display", "inline-block")
+					$('#idCheck').text('영문과 숫자를 사용한 4 ~ 20자리여야 합니다.')
+					$('#idCheck').removeClass('ok')
+					$('#idCheck').addClass('no')
+					$('#submit').addClass('disabled')
+				} else if(result.message == "EXIST") {
+					$('#idCheck').css("display", "inline-block")
+					$('#idCheck').text('이미 사용중인 아이디입니다.')
+					$('#idCheck').removeClass('ok')
+					$('#idCheck').addClass('no')
+					$('#submit').addClass('disabled')
+				} else {
 					$('#idCheck').css("display", "inline-block")
 					$('#idCheck').text('사용 가능한 아이디입니다.')
 					$('#idCheck').removeClass('no')
@@ -47,12 +53,6 @@ function checkId() {
 							&& $('#pwCheck').text() == '사용 가능한 비밀번호입니다.') {
 						$('#submit').removeClass('disabled')
 					}
-				} else {
-					$('#idCheck').css("display", "inline-block")
-					$('#idCheck').text('이미 사용중인 아이디입니다.')
-					$('#idCheck').removeClass('ok')
-					$('#idCheck').addClass('no')
-					$('#submit').addClass('disabled')
 				}
 			},
 			error:function(){
@@ -64,27 +64,36 @@ function checkId() {
 
 function checkPw() {
 	var userPw = $('#userPw').val()
-	if(userPw == '') {
-		$('#pwCheck').css("display", "none")
-		$('#pwCheck').text('')
-		$('#pwCheck').removeClass('ok')
-		$('#pwCheck').removeClass('no')
-		$('#submit').addClass('disabled')
-	} else if(userPw.replace(/\s/g,'').length >= 4 && userPw.replace(/\s/g,'').length <= 20) {
+	var regExp = /\s/g
+	if(regExp.test(userPw)) {
 		$('#pwCheck').css("display", "inline-block")
-		$('#pwCheck').text('사용 가능한 비밀번호입니다.')
-		$('#pwCheck').removeClass('no')
-		$('#pwCheck').addClass('ok')
-		if($('#idCheck').text() == '사용 가능한 아이디입니다.'
-				&& $('#nickNamecheck').text() == '사용 가능한 닉네임입니다.') {
-			$('#submit').removeClass('disabled')
-		}
-	} else {
-		$('#pwCheck').css("display", "inline-block")
-		$('#pwCheck').text('사용 불가능한 비밀번호입니다.')
+		$('#pwCheck').text('공백은 사용 불가능합니다.')
 		$('#pwCheck').removeClass('ok')
 		$('#pwCheck').addClass('no')
 		$('#submit').addClass('disabled')
+	} else {
+		if(userPw == '') {
+			$('#pwCheck').css("display", "none")
+			$('#pwCheck').text('')
+			$('#pwCheck').removeClass('ok')
+			$('#pwCheck').removeClass('no')
+			$('#submit').addClass('disabled')
+		} else if(userPw.replace(/\s/g,'').length >= 8 && userPw.replace(/\s/g,'').length <= 16) {
+			$('#pwCheck').css("display", "inline-block")
+			$('#pwCheck').text('사용 가능한 비밀번호입니다.')
+			$('#pwCheck').removeClass('no')
+			$('#pwCheck').addClass('ok')
+			if($('#idCheck').text() == '사용 가능한 아이디입니다.'
+					&& $('#nickNamecheck').text() == '사용 가능한 닉네임입니다.') {
+				$('#submit').removeClass('disabled')
+			}
+		} else {
+			$('#pwCheck').css("display", "inline-block")
+			$('#pwCheck').text('영문, 숫자, 특수문자를 사용한 8 ~ 16자리여야 합니다.')
+			$('#pwCheck').removeClass('ok')
+			$('#pwCheck').addClass('no')
+			$('#submit').addClass('disabled')
+		}
 	}
 }
 
@@ -95,13 +104,6 @@ function checkNickName(e) {
 		$('#nickNamecheck').removeClass('ok')
 		$('#nickNamecheck').removeClass('no')
 		$('#submit').addClass('disabled')
-	} else if(e.value.replace(/\s/g,'').length > e.maxLength) {
-		e.value = e.value.slice(0, e.maxLength);
-		$('#nickNamecheck').css("display", "inline-block")
-		$('#nickNamecheck').text('6글자까지만 가능합니다.')
-		$('#nickNamecheck').removeClass('ok')
-		$('#nickNamecheck').addClass('no')
-		$('#submit').addClass('disabled')
 	} else {
 		$.ajax({
 			url:'/user/nickNameCheck',
@@ -109,8 +111,8 @@ function checkNickName(e) {
 			data:{
 				'nickName': e.value
 			},
-			success:function(cnt){
-				if(cnt != 1) {
+			success:function(result){
+				if(result.message == "OK") {
 					$('#nickNamecheck').css("display", "inline-block")
 					$('#nickNamecheck').text('사용 가능한 닉네임입니다.')
 					$('#nickNamecheck').removeClass('no')
@@ -119,9 +121,17 @@ function checkNickName(e) {
 							&& $('#pwCheck').text() == '사용 가능한 비밀번호입니다.') {
 						$('#submit').removeClass('disabled')
 					}
-				} else {
+				} else if(result.message == "이미 사용중인 닉네임 입니다."){
+					console.log("1")
 					$('#nickNamecheck').css("display", "inline-block")
-					$('#nickNamecheck').text('이미 사용중인 닉네임입니다.')
+					$('#nickNamecheck').text(result.message)
+					$('#nickNamecheck').removeClass('ok')
+					$('#nickNamecheck').addClass('no')
+					$('#submit').addClass('disabled')
+				} else {
+					console.log("2")
+					$('#nickNamecheck').css("display", "inline-block")
+					$('#nickNamecheck').text(result.message)
 					$('#nickNamecheck').removeClass('ok')
 					$('#nickNamecheck').addClass('no')
 					$('#submit').addClass('disabled')
@@ -133,20 +143,45 @@ function checkNickName(e) {
 		});
 	}
 };
+$(document).on("click", "#submit", function(){
+	var userId = $('#userId').val()
+	var userPw = $('#userPw').val()
+	var nickName = $('#nickName').val()
+	
+	if(userId == ''){
+		return false;
+	}
+	if(userPw == ''){
+		return false;
+	}
+	if(nickName == ''){
+		return false;
+	}
+	$.ajax({
+		url:'/user/join',
+		type:'post',
+		data:{
+			'userId': userId,
+			'userPw': userPw,
+			'nickName': nickName
+		},
+		success:function(result){
+			alert(result.message)
+			location.href="${pageContext.request.contextPath}/user/login";
+		},
+		error:function(){
+			console.log("에러입니다");
+		}
+	});
+})
 </script>
 <body>
 <div id="body">
 <%@include file="../includes/header.jsp"%>
-<c:if test="${message == '회원가입을 축하합니다.' }">
-	<script>
-		alert('${message}')
-		location.href="${pageContext.request.contextPath}/user/login";
-	</script>
-</c:if>
 <c:choose>
 	<c:when test="${sessionScope.userId == null }">
 		<div class="form">
-			<form class="user-form" name="form" method="post" action="${pageContext.request.contextPath}/user/join">
+			<div class="user-form">
 				<div class="form-floating mb-3">
 					<input type="text" class="form-control" id="userId" name="userId" placeholder="아이디를 입력하세요." oninput="checkId()"/>
 					<label for="userId">아이디</label>
@@ -158,12 +193,12 @@ function checkNickName(e) {
 					<span class="check" id="pwCheck"></span>
 				</div>		
 				<div class="form-floating mb-3">
-					<input type="text" class="form-control" id="nickName" name="nickName" placeholder="닉네임을 입력하세요." oninput="checkNickName(this)" maxlength="6"/>
+					<input type="text" class="form-control" id="nickName" name="nickName" placeholder="닉네임을 입력하세요." oninput="checkNickName(this)"/>
 					<label for="nickName">닉네임</label>
 					<span class="check" id="nickNamecheck">이미 사용중인 닉네임입니다.</span>
 				</div>
-				<button type="submit" id="submit" class="mybtn mb-2 w-100 disabled">회원가입</button>
-			</form>
+				<button type="button" id="submit" class="mybtn mb-2 w-100 disabled">회원가입</button>
+			</div>
 		</div>
 	</c:when>
 	<c:otherwise>

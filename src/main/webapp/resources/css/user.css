@@ -19,12 +19,12 @@ small {
 
 .ok {
 	color: #6A82FB;
-	font-size: 15px;
+	font-size: 14px;
 }
 
 .no {
 	color: red;
-	font-size: 15px;
+	font-size: 14px;
 }
 
 .main {
@@ -167,6 +167,7 @@ small {
     background-color: #fff;
     border: 1px solid #767676;
     border-radius: 4px;
+    padding: 15px;
 }
 
 .modalBox .modalContent {

@@ -78,11 +78,11 @@
 	</update>
 	
 	<delete id="deleteUser">
-	DELETE
-	FROM
-		users
-	WHERE
-		userId = #{userId}
+		DELETE
+		FROM
+			users
+		WHERE
+			userId = #{userId}
 	</delete>
 	
 	<select id="boardTotal" resultType="int">

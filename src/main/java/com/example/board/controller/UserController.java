@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpSession;
 
@@ -49,39 +50,71 @@ public class UserController {
 	}
 	
 	@PostMapping("/join")
-	public ModelAndView join(UserDTO userDTO) throws Exception {
+	@ResponseBody
+	public Map<String, Object> join(UserDTO userDTO) throws Exception {
+		Map<String, Object> map = new HashMap<String, Object>();
 		
-		ModelAndView mv = new ModelAndView();
-		log.info("유저 회원가입 처리 - {}", userDTO.toString());
+		log.info("유저 회원가입 처리");
 		
-		mv.setViewName("user/join");
 		if(userService.join(userDTO)) {
-			mv.addObject("message", "회원가입을 축하합니다.");
+			map.put("message", "회원가입을 축하합니다.");
 		}
 		
-		return mv; 
+		return map; 
 	}
 	
 	@PostMapping("/idCheck")
 	@ResponseBody
-	public String idCheck(@RequestParam("userId") String userId) throws Exception {
-		log.info("userId 중복 검사");
-		int cnt = userService.idCheck(userId);
+	public Map<String, Object> idCheck(@RequestParam("userId") String userId) throws Exception {
+		Map<String, Object> map = new HashMap<String, Object>();
 		
-		String result = Integer.toString(cnt);
+		log.info("userId 검증");
+		String pattern = "^[a-zA-Z0-9]*$";
+		boolean check = Pattern.matches(pattern, userId);
 		
-		return result;
+		if(check && !(userId.length() < 4 || userId.length() > 20)) {
+			int cnt = userService.idCheck(userId);
+			
+			if(cnt == 0) {
+				map.put("message", "OK");
+			} else {
+				map.put("message", "EXIST");
+			}
+			
+		} else {
+			map.put("message", "ERROR");
+		}
+		
+		return map;
 	}
 	
 	@PostMapping("/nickNameCheck")
 	@ResponseBody
-	public String nickNameCheck(@RequestParam("nickName") String nickName) throws Exception {
-		log.info("nickName 중복 검사");
+	public Map<String, Object> nickNameCheck(@RequestParam("nickName") String nickName) throws Exception {
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		log.info("nickName 검증");
+		String pattern = "^[a-zA-Z0-9가-힣ㄱ-ㅎ]*$";
+		boolean check = Pattern.matches(pattern, nickName);
+
+		if(!check) {
+			map.put("message", "닉네임은 한글, 영문, 숫자를 사용한 2 ~ 8자리만 입력가능합니다.");
+			return map;
+		}
+		if(!(nickName.length() >= 2 && nickName.length() < 9)) {
+			map.put("message", "닉네임은 한글, 영문, 숫자를 사용한 2 ~ 8자리만 입력가능합니다.");
+			return map;
+		}
+		
 		int cnt = userService.nickNameCheck(nickName);
+
+		if(cnt == 0) {
+			map.put("message", "OK");
+		} else {
+			map.put("message", "이미 사용중인 닉네임 입니다.");
+		}
 		
-		String result = Integer.toString(cnt);
-		
-		return result;
+		return map;
 	}
 	
 	@GetMapping("/login")
@@ -164,22 +197,33 @@ public class UserController {
 		
 		Map<String, Object> map = new HashMap<String, Object>();
 		
-		if(session.getAttribute("userId") != null) {
-			String userId = session.getAttribute("userId").toString();
-			UserDTO userDTO = new UserDTO();
-			userDTO.setUserId(userId);
-			userDTO.setUserPw(curPw);
-
-			boolean result = userService.login(userDTO);
+		String pattern = "^[\\S]*$";
+		boolean check = Pattern.matches(pattern, newPw);
+		
+		log.info("{}", check);
+		log.info("{}", newPw.length());
+		
+		if(check && (newPw.length() >= 8 && newPw.length() < 17)) {
+			if(session.getAttribute("userId") != null) { 
+				String userId = session.getAttribute("userId").toString(); 
+				UserDTO userDTO = new UserDTO();
+				userDTO.setUserId(userId); 
+				userDTO.setUserPw(curPw);
 			
-			if(result) {
-				userDTO.setUserPw(newPw);
-				userService.changePw(userDTO);
-				map.put("message", "OK");
-			} else {
-				map.put("message","현재 비밀번호가 다릅니다. 다시 입력해 주세요.");
+				boolean result = userService.login(userDTO);
+			
+				if(result) { 
+					userDTO.setUserPw(newPw); 
+					userService.changePw(userDTO);
+					map.put("message", "OK");
+				} else {
+					map.put("message","현재 비밀번호가 다릅니다. 다시 입력해 주세요.");
+				}
 			}
+		} else { 
+			map.put("message", "영문, 숫자, 특수문자를 사용한 8 ~ 16자리여야 합니다.");
 		}
+		
 		return map;
 	}
 
@@ -190,9 +234,22 @@ public class UserController {
 		Map<String, Object> map = new HashMap<String, Object>();
 		
 		if(session.getAttribute("userId") != null) {
-			boolean result = (userService.nickNameCheck(changeNickName) == 0) ? true : false;
+			
+			String pattern = "^[a-zA-Z0-9가-힣ㄱ-ㅎ]*$";
+			boolean check = Pattern.matches(pattern, changeNickName);
 
-			if(result) {
+			if(!check) {
+				map.put("message", "닉네임은 한글, 영문, 숫자를 사용한 2 ~ 8자리만 입력가능합니다.");
+				return map;
+			}
+			if(!(changeNickName.length() >= 2 && changeNickName.length() < 9)) {
+				map.put("message", "닉네임은 한글, 영문, 숫자를 사용한 2 ~ 8자리만 입력가능합니다.");
+				return map;
+			}
+			
+			int cnt = userService.nickNameCheck(changeNickName);
+
+			if(cnt == 0) {
 				String userId = session.getAttribute("userId").toString();
 				UserDTO userDTO = new UserDTO();
 				userDTO.setUserId(userId);

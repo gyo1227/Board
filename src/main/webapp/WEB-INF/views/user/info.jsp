@@ -46,7 +46,6 @@ function changePw() {
 	$.ajax({
 		url: '/user/changePw',
 		type: 'post',
-		/* anync: false, */
 		data: {
 			'curPw':curPw.val(),
 			'newPw':newPw.val()
@@ -214,7 +213,7 @@ function cancel(off, on){
 										</div>
 										<div class="input-group">
 											<input type="password" class="myInput" id="changeUserPw" placeholder="신규 비밀번호" data-toggle="popover" data-placement="bottom" data-content="Content1">
-											<small>4자~20자 영문, 숫자, 특수문자를 조합해 주세요.</small>
+											<small>8자~16자 영문, 숫자, 특수문자를 조합해 주세요.</small>
 										</div>
 										<div class="input-group">
 											<input type="password" class="myInput" id="changeUserPw_ok" placeholder="비밀번호 확인" data-bs-toggle="popover" data-bs-placement="bottom" data-bs-content="비밀번호가 일치하지 않습니다. 다시 입력해 주세요." data-bs-custom-class="mypopover">
@@ -250,7 +249,7 @@ function cancel(off, on){
 										<span class="text-bold">${userDTO.nickName }</span>
 										<div class="input-group">
 											<input type="text" class="myInput" id="changeNickName" placeholder="변경 닉네임">
-											<small>사용하실 닉네임을 입력해 주세요.(최대 6글자)</small>
+											<small>사용하실 닉네임을 입력해 주세요. (2 ~ 8 글자)</small>
 										</div>
 										<nav>
 											<a href="#" id="changeNick" onclick="changeNick()">

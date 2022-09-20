@@ -35,7 +35,6 @@ $(document).ready(function(){
 		
 		<div class="dropdown text-end">
 			<c:choose>
-				<%-- <c:when test="${pageContext.request.getRequestURI() == '/WEB-INF/views/user/login.jsp'}"></c:when> --%>
 				<c:when test="${sessionScope.userId != null }">
 					<a id="nickName" href="#" class="d-block link-dark text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
 						

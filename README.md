@@ -215,55 +215,52 @@
 <div markdown="1">
 
 ### 댓글 목록
+
 ![댓글 목록](https://user-images.githubusercontent.com/54405892/191197466-785e415b-80b9-45e5-ac3a-510523276bd6.png)
-![토글버튼](https://user-images.githubusercontent.com/54405892/191197474-f0a541c6-b820-4845-82e6-b61ac1bf98ef.png)
-
-
-![댓글 목록.png](README%20md%2066cd8edd49d5452fa7b7a161ce5173e4/%25EB%258C%2593%25EA%25B8%2580_%25EB%25AA%25A9%25EB%25A1%259D.png)
 
 댓글과 대댓글을 띄어주고, 댓글일 경우에는 대댓글을 달 수 있는 버튼을 보여줍니다.
 
-![토글버튼.png](README%20md%2066cd8edd49d5452fa7b7a161ce5173e4/%25ED%2586%25A0%25EA%25B8%2580%25EB%25B2%2584%25ED%258A%25BC.png)
+![토글버튼](https://user-images.githubusercontent.com/54405892/191197474-f0a541c6-b820-4845-82e6-b61ac1bf98ef.png)
 
 본인이 작성한 댓글과 대댓글일 경우에만 수정과 삭제를 할 수 있는 토글버튼 생깁니다.
 
 ### 댓글 작성
-
-![비로그인 댓글.png](README%20md%2066cd8edd49d5452fa7b7a161ce5173e4/%25EB%25B9%2584%25EB%25A1%259C%25EA%25B7%25B8%25EC%259D%25B8_%25EB%258C%2593%25EA%25B8%2580.png)
+    
+![비로그인 댓글](https://user-images.githubusercontent.com/54405892/191374475-eef9bf3c-da2f-46b6-982a-da0509fde7d7.png)
 
 비로그인 일 경우 로그인이 필요하다는 alert 창 띄어준 후 로그인 페이지로 이동합니다.
 
-![댓글 작성.png](README%20md%2066cd8edd49d5452fa7b7a161ce5173e4/%25EB%258C%2593%25EA%25B8%2580_%25EC%259E%2591%25EC%2584%25B1.png)
+![댓글 작성](https://user-images.githubusercontent.com/54405892/191374504-3e162db2-3c0e-488d-9dff-e50f9d2747f6.png)
 
 댓글 작성을 완료하면 댓글 목록을 다시 출력합니다.
 
-![댓글 작성후.png](README%20md%2066cd8edd49d5452fa7b7a161ce5173e4/%25EB%258C%2593%25EA%25B8%2580_%25EC%259E%2591%25EC%2584%25B1%25ED%259B%2584.png)
+![댓글 작성후](https://user-images.githubusercontent.com/54405892/191374511-24f9433f-4aff-4aa2-8f30-442017124f3d.png)
 
 ### 댓글 수정하기
 
-![댓글 수정.png](README%20md%2066cd8edd49d5452fa7b7a161ce5173e4/%25EB%258C%2593%25EA%25B8%2580_%25EC%2588%2598%25EC%25A0%2595.png)
+![댓글 수정](https://user-images.githubusercontent.com/54405892/191374562-f10344f4-358f-43e3-bd4b-e8162e94d97a.png)
 
-![댓글 수정2.png](README%20md%2066cd8edd49d5452fa7b7a161ce5173e4/%25EB%258C%2593%25EA%25B8%2580_%25EC%2588%2598%25EC%25A0%25952.png)
+![댓글 수정2](https://user-images.githubusercontent.com/54405892/191374566-a7fc0e01-558c-4e4d-853c-13c9983ed69f.png)
 
-![댓글 수정3.png](README%20md%2066cd8edd49d5452fa7b7a161ce5173e4/%25EB%258C%2593%25EA%25B8%2580_%25EC%2588%2598%25EC%25A0%25953.png)
+![댓글 수정3](https://user-images.githubusercontent.com/54405892/191374568-9472dd34-7e46-4c87-89ea-d758210ad035.png)
 
 댓글 수정 완료시 댓글 목록을 다시 출력합니다.
 
-![댓글 수정4.png](README%20md%2066cd8edd49d5452fa7b7a161ce5173e4/%25EB%258C%2593%25EA%25B8%2580_%25EC%2588%2598%25EC%25A0%25954.png)
+![댓글 수정4](https://user-images.githubusercontent.com/54405892/191374618-dd9abe70-3dd0-4a14-8a2d-4f9a8bdaef38.png)
 
 한번에 하나의 댓글만 수정이 가능합니다.
 
 댓글을 수정하던중 다른 댓글을 수정하기 위해서는 수정을 끝마치거나 취소 버튼을 누른 후 수정을 해야 합니다.
 
-![답글.gif](README%20md%2066cd8edd49d5452fa7b7a161ce5173e4/%25EB%258B%25B5%25EA%25B8%2580.gif)
+![답글](https://user-images.githubusercontent.com/54405892/191374688-dac7b0a9-2a6d-49a0-8e49-079858b01d3e.gif)
 
 답글 달기 역시 한번에 하나의 댓글에만 답글을 추가 할 수 있습니다.
 
 ### 댓글 삭제
 
-![댓글 삭제.png](README%20md%2066cd8edd49d5452fa7b7a161ce5173e4/%25EB%258C%2593%25EA%25B8%2580_%25EC%2582%25AD%25EC%25A0%259C.png)
+![댓글 삭제](https://user-images.githubusercontent.com/54405892/191374692-495a2b9d-7433-454b-9489-eaa8fede8182.png)
 
-![댓글삭제2.png](README%20md%2066cd8edd49d5452fa7b7a161ce5173e4/%25EB%258C%2593%25EA%25B8%2580%25EC%2582%25AD%25EC%25A0%259C2.png)
+![댓글 삭제2](https://user-images.githubusercontent.com/54405892/191374695-9791eb89-603e-4808-aedc-d28c2d32380f.png)
 
 댓글 삭제 시 삭제되었다는 alert창 출력후 댓글 목록을 출력합니다.
 

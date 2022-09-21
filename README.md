@@ -271,7 +271,7 @@
 ## 구조 및 설계
 - #### 패키지 구조
     <details>
-    <summary>여기를 눌러주세요</summary>
+    <summary>패키지 구조 보기</summary>
     <div markdown="1">
 
     ```
@@ -350,20 +350,40 @@
 
 
 - #### Database 설계
+    <details>
+    <summary>ERD</summary>
+    <div markdown="1">
 
     ![board_erd](https://user-images.githubusercontent.com/54405892/190950886-7567a4ef-304a-43ba-bd41-b014186cb15e.png)
     
+    </div>
+    </details>
+    <details>
+    <summary>DataBase Table</summary>
+    <div markdown="1">
+
     ![board_users_table](https://user-images.githubusercontent.com/54405892/190950940-88ef428d-cde5-44d8-ae27-d8d95d3241e0.png)
     
     ![board_board_table](https://user-images.githubusercontent.com/54405892/190950958-0408e0be-1b9d-4e78-aabb-71dd9b8c122b.png)
     
     ![board_reply_table](https://user-images.githubusercontent.com/54405892/190950990-eaf332e0-1a5c-4780-ad00-3ef52d1b7d7d.png)
+    
+    </div>
+    </details>
 
 - #### API 설계
+    <details>
+    <summary>API</summary>
+    <div markdown="1">
 
     ![user_api](https://user-images.githubusercontent.com/54405892/190951087-45a062c8-54a1-4079-b8bc-25dd72d4e535.png)
     
     ![board_api](https://user-images.githubusercontent.com/54405892/190951089-ab947ac4-424a-4b01-a0dd-eb81319eeb13.png)
     
     ![reply_api](https://user-images.githubusercontent.com/54405892/190951085-6a76d968-7018-4518-a296-a6fff9597483.png)
-
+    
+    </div>
+    </details>
+    
+## 보안사항
+향후 스프링 시큐리티와 JPA를 공부해서 적용해 볼 생각입니다.

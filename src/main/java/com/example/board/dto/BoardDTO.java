@@ -23,20 +23,6 @@ public class BoardDTO {
 		super();
 	}
 
-	public BoardDTO(int boardNum, String title, String content, LocalDateTime regDate, int viewCnt, int replyCnt,
-			int deleteChk, String userId, String nickName) {
-		super();
-		this.boardNum = boardNum;
-		this.title = title;
-		this.content = content;
-		this.regDate = regDate;
-		this.viewCnt = viewCnt;
-		this.replyCnt = replyCnt;
-		this.deleteChk = deleteChk;
-		this.userId = userId;
-		this.nickName = nickName;
-	}
-	
 	public int getBoardNum() {
 		return boardNum;
 	}

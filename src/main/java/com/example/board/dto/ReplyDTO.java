@@ -27,21 +27,6 @@ public class ReplyDTO {
 		super();
 	}
 
-	public ReplyDTO(int replyNum, String userId, String content, String nickName, LocalDateTime regDate, int depth,
-			int replyGroup, int deleteChk, int boardNum, String title) {
-		super();
-		this.replyNum = replyNum;
-		this.userId = userId;
-		this.content = content;
-		this.nickName = nickName;
-		this.regDate = regDate;
-		this.depth = depth;
-		this.replyGroup = replyGroup;
-		this.deleteChk = deleteChk;
-		this.boardNum = boardNum;
-		this.title = title;
-	}
-
 	public int getReplyNum() {
 		return replyNum;
 	}
